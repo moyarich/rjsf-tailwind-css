@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 9.09% 97.84%; /* #F0F7F9 */
+    --foreground: 222.2 47.4% 11.2%; /* #373F1C */
+    --muted: 165 11.11% 92.94%; /* #ebefee */
+    --muted-foreground: 180 5% 25%; /* #3c4242 */
+    --primary: 320.64 80.65% 30.39%; /* #8C0F61 */
+    --primary-foreground: 210 40% 98%; /* #F0F8F9 */
+    --secondary: 0 0% 100%; /* #FFFFFF */
+    --secondary-foreground: 180 5% 25%; /* #3c4242 */
+    --popover: 0 0% 100%; /* #FFFFFF */
+    --popover-foreground: 222.2 47.4% 11.2%; /* #373F1C */
+    --input: 214.3 31.8% 91.4%; /* #E9F3EB */
+    --accent: 320.57 35% 60.78%; /* #BF78A6 */
+    --accent-foreground: 317 16% 17%; /* #32242E */
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 222.2 47.4% 11.2%; /* #373F1C */
+    --border: 214.3 31.8% 91.4%; /* #E9F3EB */
+    --destructive: 327 96% 43%; /* #D90479 */
+    --destructive-foreground: 210 40% 98%; /* #F0F8F9 */
+    --ring: 38 95% 48%; /* #F29F05 */
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 224 71.4% 4.1%; /* #030712 */
+    --foreground: 165 11.11% 92.94%; /* #ebefee */
+    --card: 224 71.4% 4.1%; /* #030712 */
+    --card-foreground: 165 11.11% 92.94%; /* #ebefee */
+    --popover: 224 71.4% 4.1%; /* #030712 */
+    --popover-foreground: 165 11.11% 92.94%; /* #ebefee */
+    --primary: 320.64 80.65% 30.39%; /* #8C0F61 */
+    --primary-foreground: 210 40% 98%; /* #F0F8F9 */
+    --secondary: 215 27.9% 16.9%; /* ​#1f2937 */
+    --secondary-foreground: 165 11.11% 92.94%; /* #ebefee */
+    --muted: 215 27.9% 16.9%; /* ​#1f2937 */
+    --muted-foreground: 217.9 10.6% 64.9%; /* ​#9ca3af */
+    --accent: 215 27.9% 16.9%; /* ​#1f2937 */
+    --accent-foreground: 165 11.11% 92.94%; /* #ebefee */
+    --destructive: 320.57 35% 60.78%; /* #BF78A6 */
+    --destructive-foreground: 317 16% 17%; /* #32242E */
+    --border: 215 27.9% 16.9%; /* ​#1f2937 */
+    --input: 215 27.9% 16.9%; /* ​#1f2937 */
+    --ring: 38 95% 48%; /* #F29F05 */
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
