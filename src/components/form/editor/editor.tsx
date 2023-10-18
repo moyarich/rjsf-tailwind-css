@@ -4,7 +4,6 @@ import MonacoEditor from '@monaco-editor/react';
 import { CheckIcon, TrashIcon } from '@radix-ui/react-icons';
 
 export type EditorProps = {
-  className: string;
   title: string;
   code: string;
   onChange?: (code: string) => void;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ErrorSchema, RJSFSchema, UiSchema } from '@rjsf/utils';
 import { IChangeEvent } from '@rjsf/core';
@@ -15,6 +15,7 @@ import * as menuSchema from '@/schemas/menu';
 import * as randomSchema from '@/schemas/random';
 import * as videoSchema from '@/schemas/video';
 import * as testingSchema from '@/schemas/_testing';
+
 const schemaData = {
   Home: homeSchema,
   Menu: menuSchema,
@@ -36,38 +37,33 @@ import {
 export default function Home() {
   const [selectedSchema, setSelectedSchema] = useState('Home');
 
-  const {
-    schema: s,
-    uiSchema: uiS,
-    formData: fd,
-  } = schemaData?.[selectedSchema as keyof typeof schemaData] ?? {};
-
-  const [schema, setSchema] = useState<RJSFSchema>(s ?? {});
-  const [uiSchema, setUiSchema] = useState<UiSchema>(uiS ?? {});
-  const [formData, setFormData] = useState<any>(fd ?? {});
+  const [schema, setSchema] = useState<RJSFSchema>( {});
+  const [uiSchema, setUiSchema] = useState<UiSchema>({});
+  const [formData, setFormData] = useState<any>({});
 
   const [extraErrors, setExtraErrors] = useState<ErrorSchema | undefined>();
 
   function handleSchemaSelectChange(selected: string): void {
     setSelectedSchema(selected);
-
+  }
+  useEffect(() => {
+    console.log("selectedSchema--->", selectedSchema);
     const {
-      schema: s,
-      uiSchema: uiS,
-      formData: fd,
-    } = schemaData?.[selected as keyof typeof schemaData] ?? {};
+        schema: s,
+        uiSchema: uiS,
+        formData: fd,
+    } = schemaData?.[selectedSchema as keyof typeof schemaData] ?? {};
 
     setSchema(s ?? {});
     setUiSchema(uiS ?? {});
     setFormData(fd ?? {});
-  }
+}, [selectedSchema]);
 
   const handleFormDataChange = (form: IChangeEvent<any>, id?: string) => {
     console.log(id, form.formData);
   };
 
   const handleFormDataSubmit = (form: IChangeEvent<any>, event: any) => {
-    console.log('onFormDataSubmit-->', form);
     setFormData(form.formData);
   };
 

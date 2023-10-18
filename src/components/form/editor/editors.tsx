@@ -45,23 +45,22 @@ export default function Editors({
   onFormDataChange,
   onFormDataSubmit,
 }: EditorsProps) {
-  const [updatedSchema, setUpdatedSchema] = useState<RJSFSchema>(schema);
-  const [updatedUiSchema, setUpdatedUiSchema] = useState<UiSchema>(uiSchema);
-
+ 
   //-------------------
   //-------------------
-  const onFormBuilderChange = useCallback(
+  const onFormBuilderChange = 
     (newSchema: string, newUiSchema: string) => {
       setSchema(JSON.parse(newSchema));
       setUiSchema(JSON.parse(newUiSchema));
     }
-  );
+ 
+    
   const FormBuilderGuiEditor = () => {
     return (
       <FormBuilder
         className="schema-form-builder m-2"
-        schema={JSON.stringify(updatedSchema)}
-        uischema={JSON.stringify(updatedUiSchema)}
+        schema={JSON.stringify(schema)}
+        uischema={JSON.stringify(uiSchema)}
         onChange={onFormBuilderChange}
       />
     );
@@ -72,17 +71,16 @@ export default function Editors({
   /**
    * FormPreview
    */
-  const _onFormDataChange = useCallback(
-    (form: IChangeEvent<any>, id: string | undefined) => {
+  const _onFormDataChange = (form: IChangeEvent<any>, id: string | undefined) => {
       onFormDataChange && onFormDataChange(form, id);
     }
-  );
 
-  const _onFormDataSubmit = useCallback(
+
+  const _onFormDataSubmit = 
     (form: IChangeEvent<any, any, any>, event: React.FormEvent<any>) => {
       onFormDataSubmit && onFormDataSubmit(form, event);
     }
-  );
+
 
   const FormPreview = () => {
     return (
@@ -102,9 +100,12 @@ export default function Editors({
   /**
    * Schema
    */
-  const onSchemaEdited = useCallback((newSchema: RJSFSchema) => {
+  const onSchemaEdited = (newSchema: RJSFSchema) => {
     setSchema(newSchema);
-  });
+  }
+
+
+
   const SchemaEditor = () => {
     return (
       <Editor
@@ -123,12 +124,10 @@ export default function Editors({
   /**
    * UI Schema
    */
-  const onUISchemaEdited = useCallback(
-    (newUiSchema: UiSchema) => {
+  const onUISchemaEdited =  (newUiSchema: UiSchema) => {
       setUiSchema(newUiSchema);
-    },
-    [setUiSchema]
-  );
+    }
+
 
   const UISchemaEditor = () => {
     return (
@@ -149,7 +148,7 @@ export default function Editors({
    * FormData
    */
 
-  const onFormDataEdited = useCallback(
+  const onFormDataEdited =
     (newFormData: any) => {
       if (
         !isEqualWith(newFormData, formData, (newValue, oldValue) => {
@@ -159,9 +158,7 @@ export default function Editors({
       ) {
         setFormData(newFormData);
       }
-    },
-    [formData, setFormData]
-  );
+    }
 
   const FormDataEditor = () => {
     return (
@@ -182,12 +179,11 @@ export default function Editors({
    * Extra Errors
    */
 
-  const onExtraErrorsEdited = useCallback(
+  const onExtraErrorsEdited =
     (newExtraErrors: ErrorSchema | undefined) => {
       setExtraErrors(newExtraErrors);
-    },
-    [setExtraErrors]
-  );
+    }
+
   const ExtraErrorsEditorEditor = () => {
     return (
       <Editor
