@@ -1,4 +1,5 @@
 import { PlusIcon } from '@radix-ui/react-icons';
+import { cn } from '../../utils';
 import { Button } from '../../ui/button';
 
 import {
@@ -16,7 +17,9 @@ export default function AddButton<
 >({ uiSchema, registry, ...props }: IconButtonProps<T, S, F>) {
   const { translateString } = registry;
   return (
-    <Button {...props} className={`ml-1 ${props?.className ?? ''}`}>
+    <Button
+    {...props}
+    className={cn("ml-1", props?.className ?? '')}>
       <PlusIcon className="mr-1 w-6" />
       {translateString(TranslatableString.AddItemButton)}
     </Button>

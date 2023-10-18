@@ -1,4 +1,5 @@
 import { ArrowUpIcon } from '@radix-ui/react-icons';
+import { cn } from '../../utils';
 import { Button } from '../../ui/button';
 
 import {
@@ -16,9 +17,9 @@ export default function MoveUpButton<
 >({ uiSchema, registry, ...props }: IconButtonProps<T, S, F>) {
   const { translateString } = registry;
   return (
-    <Button
+   <Button
       {...props}
-      className={`ml-1 ${props?.className ?? ''}`}
+      className={cn("ml-1", props?.className ?? '')}
       variant="outline"
     >
       <ArrowUpIcon className="mr-1 w-6" />
