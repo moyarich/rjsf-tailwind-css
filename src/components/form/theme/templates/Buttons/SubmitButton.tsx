@@ -1,4 +1,5 @@
 import { EnterIcon } from '@radix-ui/react-icons';
+import { cn } from '../../utils';
 import { Button } from '../../ui/button';
 
 import {
@@ -27,7 +28,7 @@ export default function SubmitButton<
       <Button
         type="submit"
         {...submitButtonProps}
-        className={`btn btn-submit ${submitButtonProps?.className ?? ''}`}
+        className={cn(`btn btn-submit`, submitButtonProps?.className ?? "")}
       >
         {submitText}
       </Button>

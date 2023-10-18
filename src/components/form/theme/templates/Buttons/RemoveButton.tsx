@@ -1,4 +1,5 @@
 import { Cross1Icon } from '@radix-ui/react-icons';
+import { cn } from '../../utils';
 import { Button } from '../../ui/button';
 
 import {
@@ -19,7 +20,7 @@ export default function AddButton<
   return (
     <Button
       {...props}
-      className={`ml-1 ${props?.className ?? ''}`}
+      className={cn("ml-1", props?.className ?? '')}
       variant="secondary"
     >
       <Cross1Icon className="mr-1 w-6" />
