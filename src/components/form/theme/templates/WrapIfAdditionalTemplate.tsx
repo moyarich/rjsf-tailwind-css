@@ -10,6 +10,7 @@ import {
 import { cn } from '../utils';
 
 import { Label } from '../ui/label';
+import { Input } from '../ui/input';
 
 export default function WrapIfAdditionalTemplate<
   T = any,
@@ -38,14 +39,22 @@ export default function WrapIfAdditionalTemplate<
   const additional = ADDITIONAL_PROPERTY_FLAG in schema;
   const REQUIRED_FIELD_SYMBOL = '*';
 
+  if (!additional) {
+    return (
+      <div className={classNames} style={style}>
+        {children}
+      </div>
+    );
+  }
+
   return (
     <div
-      className={cn('wrap-if-additional-template', classNames)}
+      className={cn('wrap-if-additional-template flex flex-wrap items-end gap-2', classNames)}
       style={style}
     >
-      <div className="grid grid-cols-12">
-        <div className="col-span-5 form-additional">
-          <div className="form-group">
+     
+        <div className="flex-1 ">
+
             <Label htmlFor={`${id}-key`}>
               {keyLabel}
               {required && (
@@ -53,27 +62,26 @@ export default function WrapIfAdditionalTemplate<
               )}
             </Label>
 
-            <input
+            <Input
               className="form-input"
               type="text"
               id={`${id}-key`}
               onBlur={(event) => onKeyChange(event.target.value)}
               defaultValue={label}
             />
-          </div>
         </div>
-        <div className="form-additional form-group col-span-5">{children}</div>
-        <div className="col-span-2">
+        <div className="form-additional flex-1">{children}</div>
+        <div className="">
           <RemoveButton
             className="array-item-remove btn-block"
             style={{ border: '0' }}
             disabled={disabled || readonly}
-            onClick={onDropPropertyClick(label)}
+            onClick={()=>{onDropPropertyClick(label)}}
             uiSchema={uiSchema}
             registry={registry}
           />
         </div>
       </div>
-    </div>
+    
   );
 }

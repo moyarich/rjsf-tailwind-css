@@ -13,6 +13,7 @@ import SubmitButton from './Buttons/SubmitButton';
 import ObjectFieldTemplate from './ObjectFieldTemplate';
 import FieldTemplate from './FieldTemplate';
 import { StrictRJSFSchema, TemplatesType } from '@rjsf/utils';
+import WrapIfAdditionalTemplate from './WrapIfAdditionalTemplate';
 
 export const templates: Partial<TemplatesType<any, StrictRJSFSchema, any>> = {
   BaseInputTemplate,
@@ -22,6 +23,7 @@ export const templates: Partial<TemplatesType<any, StrictRJSFSchema, any>> = {
   ArrayFieldTemplate,
   ObjectFieldTemplate,
   FieldTemplate,
+  WrapIfAdditionalTemplate,
   ButtonTemplates: {
     AddButton,
     RemoveButton,
