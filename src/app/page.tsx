@@ -1,7 +1,10 @@
 'use client';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { useState,useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { NextPage } from "next";
+import { useParams } from "next/navigation";
+
 import { ErrorSchema, RJSFSchema, UiSchema } from '@rjsf/utils';
 import { IChangeEvent } from '@rjsf/core';
 
@@ -34,7 +37,10 @@ import {
 } from '@/components/ui/select';
 //import * as diseasesSchema from '@/dummy-data/diseases.ts';
 
-export default function Home() {
+
+const Page: NextPage = () => {
+  const params = useParams();
+
   const [selectedSchema, setSelectedSchema] = useState('Home');
 
   const [schema, setSchema] = useState<RJSFSchema>( {});
@@ -119,3 +125,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default Page

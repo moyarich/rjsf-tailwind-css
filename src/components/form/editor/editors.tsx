@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 
-import { ErrorSchema, RJSFSchema, UiSchema, ValidatorType } from '@rjsf/utils';
+import { ErrorSchema, RJSFSchema, UiSchema, ValidatorType,FormContextType } from '@rjsf/utils';
 import { IChangeEvent, FormProps } from '@rjsf/core';
 
 import isEqualWith from 'lodash/isEqualWith';
@@ -13,20 +13,22 @@ import ThemeForm from '../theme';
 
 const toJson = (val: unknown) => JSON.stringify(val ?? {}, null, 2);
 
+
+
 interface EditorsProps {
   schema: RJSFSchema;
   setSchema: React.Dispatch<React.SetStateAction<RJSFSchema>>;
   uiSchema: UiSchema;
   setUiSchema: React.Dispatch<React.SetStateAction<UiSchema>>;
-  formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  formData: unknown;
+  setFormData: React.Dispatch<React.SetStateAction<unknown>>;
   validator: ValidatorType;
-  extraErrors: ErrorSchema | undefined;
-  setExtraErrors: React.Dispatch<React.SetStateAction<ErrorSchema | undefined>>;
-  onFormDataChange?: (form: IChangeEvent<any, any, any>, id?: string) => void;
+  extraErrors?: ErrorSchema;
+  setExtraErrors?: React.Dispatch<React.SetStateAction<ErrorSchema>>;
+  onFormDataChange?: (form: IChangeEvent<unknown, RJSFSchema, FormContextType>, id?: string) => void;
   onFormDataSubmit?: (
-    form: IChangeEvent<any, any, any>,
-    event: React.FormEvent<any>
+    form: IChangeEvent<unknown, RJSFSchema, FormContextType>,
+    event: React.FormEvent<unknown>
   ) => void;
   formPreviewActive?: boolean;
 }
@@ -71,13 +73,13 @@ export default function Editors({
   /**
    * FormPreview
    */
-  const _onFormDataChange = (form: IChangeEvent<any>, id: string | undefined) => {
+  const _onFormDataChange = (form: IChangeEvent<unknown>, id: string | undefined) => {
       onFormDataChange && onFormDataChange(form, id);
     }
 
 
   const _onFormDataSubmit = 
-    (form: IChangeEvent<any, any, any>, event: React.FormEvent<any>) => {
+    (form: IChangeEvent<unknown, RJSFSchema, FormContextType>, event: React.FormEvent<unknown>) => {
       onFormDataSubmit && onFormDataSubmit(form, event);
     }
 
@@ -179,9 +181,10 @@ export default function Editors({
    * Extra Errors
    */
 
-  const onExtraErrorsEdited =
-    (newExtraErrors: ErrorSchema | undefined) => {
-      setExtraErrors(newExtraErrors);
+  const onExtraErrorsEdited = (newExtraErrors?: ErrorSchema) => {
+      if(newExtraErrors){
+        setExtraErrors && setExtraErrors(newExtraErrors);
+      }
     }
 
   const ExtraErrorsEditorEditor = () => {
