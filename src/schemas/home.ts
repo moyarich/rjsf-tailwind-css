@@ -1,8 +1,9 @@
 import { RJSFSchema, UiSchema } from '@rjsf/utils';
 
 export const schema: RJSFSchema = {
-  title: 'Home',
-  description: 'The default schema for the home category',
+  $id: 'root-schema-id',
+  title: 'Edit Home',
+  description: 'Alter the template for the page',
   type: 'object',
   properties: {
     announcements: {

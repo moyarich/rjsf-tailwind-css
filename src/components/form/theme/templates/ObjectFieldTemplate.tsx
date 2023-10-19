@@ -46,7 +46,7 @@ export default function ObjectFieldTemplate<
     ButtonTemplates: { AddButton },
   } = registry.templates;
   return (
-    <>
+    <fieldset id={idSchema.$id}>
       {title && (
         <TitleFieldTemplate
           id={titleId<T>(idSchema)}
@@ -89,6 +89,6 @@ export default function ObjectFieldTemplate<
           </div>
         ) : null}
       </div>
-    </>
+    </fieldset>
   );
 }

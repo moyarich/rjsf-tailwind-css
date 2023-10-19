@@ -30,7 +30,6 @@ interface EditorsProps {
     form: IChangeEvent<unknown, RJSFSchema, FormContextType>,
     event: React.FormEvent<unknown>
   ) => void;
-  formPreviewActive?: boolean;
 }
 
 export default function Editors({
@@ -43,7 +42,6 @@ export default function Editors({
   setUiSchema,
   formData,
   validator,
-  formPreviewActive,
   onFormDataChange,
   onFormDataSubmit,
 }: EditorsProps) {

@@ -16,6 +16,13 @@ export const schema: RJSFSchema = {
       title: 'Age',
       minLength: 10,
     },
+    price: {
+      title: 'Price per task ($)',
+      type: 'number',
+      multipleOf: 0.03,
+      minimum: 1,
+    },
+    fruits: { type: 'array', items: { type: 'string' } },
     comments: {
       type: 'array',
       items: {

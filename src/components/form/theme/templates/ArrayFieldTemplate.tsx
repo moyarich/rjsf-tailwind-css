@@ -93,7 +93,7 @@ export default function ArrayFieldTemplate<
           />
         </div>
         {items && (
-          <div className="array-items-wrapper flex flex-col gap-4">
+          <div className="array-items-wrapper flex flex-col gap-4" id={`array-item-list-${idSchema.$id}`} >
             {items.map(
               ({ key, ...itemProps }: ArrayFieldTemplateItemType<T, S, F>) => (
                 <ArrayFieldItemTemplate key={key} {...itemProps} />

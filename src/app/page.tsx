@@ -55,14 +55,14 @@ const Page: NextPage = () => {
   useEffect(() => {
     console.log("selectedSchema--->", selectedSchema);
     const {
-        schema: s,
-        uiSchema: uiS,
-        formData: fd,
-    } = schemaData?.[selectedSchema as keyof typeof schemaData] ?? {};
+        schema: s = {},
+        uiSchema: uiS = {},
+        formData: fd = {},
+    } = schemaData?.[selectedSchema as keyof typeof schemaData]  ?? {};
 
-    setSchema(s ?? {});
-    setUiSchema(uiS ?? {});
-    setFormData(fd ?? {});
+    setSchema(s as RJSFSchema);
+    setUiSchema(uiS as RJSFSchema);
+    setFormData(fd as FormData);
 }, [selectedSchema]);
 
   const handleFormDataChange = (form: IChangeEvent<any>, id?: string) => {
@@ -106,6 +106,15 @@ const Page: NextPage = () => {
           </p>
         </div>
       </div>
+
+      <fieldset className="mb-4 border p-2 relative">
+                        <legend className="text-muted-foreground font-light text-base p-0 block transform origin-top-left whitespace-nowrap overflow-hidden overflow-ellipsis absolute left-0 top-0 translate-x-[14px] -translate-y-[9px] scale-75  z-10">
+  User's Credentials
+  </legend>
+                        <div className="mb-4">
+                            <label >Username:</label>
+                            <input id="username" type="text" className="block appearance-none w-full py-1 px-2 mb-1 text-base leading-normal bg-white text-gray-800 border border-gray-200 rounded username" placeholder="Username..." name="username"/>
+                            </div> </fieldset>
 
       {
         <Editors

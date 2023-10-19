@@ -74,7 +74,7 @@ export default function FieldTemplate<
             {required ? REQUIRED_FIELD_SYMBOL : null}
           </Label>
         )}
-        <div className="field-content">{children}</div>
+        {children}
         {displayLabel && rawDescription && (
           <div
             className={`font-inter text-sm ${
