@@ -16,6 +16,7 @@ import ThemeForm from '../theme';
 const toJson = (val: unknown) => JSON.stringify(val ?? {}, null, "\t");
 
 interface EditorsProps {
+  editorTitle?: string;
   schema: RJSFSchema;
   setSchema: React.Dispatch<React.SetStateAction<RJSFSchema>>;
   uiSchema: UiSchema;
@@ -24,15 +25,17 @@ interface EditorsProps {
   setFormData: React.Dispatch<React.SetStateAction<unknown>>;
   validator: ValidatorType;
   extraErrors?: ErrorSchema;
-  setExtraErrors?: React.Dispatch<React.SetStateAction<ErrorSchema>>;
+  setExtraErrors?: React.Dispatch<React.SetStateAction<ErrorSchema | undefined>>;
   onFormDataChange?: (form: IChangeEvent<unknown, RJSFSchema, FormContextType>, id?: string) => void;
   onFormDataSubmit?: (
     form: IChangeEvent<unknown, RJSFSchema, FormContextType>,
     event: React.FormEvent<unknown>
   ) => void;
+  onTemplateSave?:(schema : RJSFSchema,uiSchema?: UiSchema,formData?:unknown, extraErrors?:ErrorSchema ) => void
 }
 
 export default function Editors({
+  editorTitle,
   extraErrors,
   setExtraErrors,
   setFormData,
@@ -44,9 +47,14 @@ export default function Editors({
   validator,
   onFormDataChange,
   onFormDataSubmit,
+  onTemplateSave,
 }: EditorsProps) {
  
 
+  const _onTemplateSave = () => {
+    onTemplateSave && onTemplateSave(schema ,uiSchema,formData, extraErrors)
+
+  }
 
   //-------------------
   //-------------------
@@ -173,7 +181,21 @@ export default function Editors({
   };
 
   return (
-    <>
+    <div className="mb-4">
+                <div className="header flex pt-2 items-center">
+                {editorTitle && (<div className="p-2 gap-1 inline-flex items-center">
+                    <span className="text-lg">{editorTitle}</span>
+                </div>)}
+                <div className="action flex flex-1 items-center justify-end">
+                    <button
+                        className="bg-primary text-primary-foreground shadow hover:bg-primary/90 py-2 rounded-tl-md rounded-tr-md px-8"
+                        onClick={_onTemplateSave}
+                    >
+                        Save Template
+                    </button>
+                </div>
+            </div>
+            <div className="p-1 rounded-tl-md rounded-bl-md rounded-br-md border-4  border-primary border-opacity-10">
       <Tabs defaultValue="source">
         <TabsList className="w-full justify-start inline-flex h-9 items-center rounded-lg bg-muted p-1 text-muted-foreground">
           <TabsTrigger value="source">Source</TabsTrigger>
@@ -231,6 +253,7 @@ export default function Editors({
           </div>
         </div>
       </Tabs>
-    </>
+    </div>
+    </div>
   );
 }

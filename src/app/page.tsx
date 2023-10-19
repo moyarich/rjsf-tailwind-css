@@ -19,7 +19,7 @@ import * as randomSchema from '@/schemas/random';
 import * as videoSchema from '@/schemas/video';
 import * as testingSchema from '@/schemas/_testing';
 
-const schemaData = {
+const defaultSchemaData = {
   Home: homeSchema,
   Menu: menuSchema,
   Random: randomSchema,
@@ -28,14 +28,8 @@ const schemaData = {
   //'Diseases': diseasesSchema,
 };
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-//import * as diseasesSchema from '@/dummy-data/diseases.ts';
+
+import { SchemaSelector } from '@/components/schema-selector';
 
 
 const Page: NextPage = () => {
@@ -52,62 +46,35 @@ const Page: NextPage = () => {
   function handleSchemaSelectChange(selected: string): void {
     setSelectedSchema(selected);
   }
+
   useEffect(() => {
-    console.log("selectedSchema--->", selectedSchema);
     const {
         schema: s = {},
         uiSchema: uiS = {},
         formData: fd = {},
-    } = schemaData?.[selectedSchema as keyof typeof schemaData]  ?? {};
+    } = defaultSchemaData?.[selectedSchema as keyof typeof defaultSchemaData]  ?? {};
 
     setSchema(s as RJSFSchema);
     setUiSchema(uiS as RJSFSchema);
     setFormData(fd as FormData);
 }, [selectedSchema]);
 
-  const handleFormDataChange = (form: IChangeEvent<any>, id?: string) => {
+
+
+
+  const handleFormDataChange = (form: IChangeEvent<unknown>, id?: string) => {
     console.log(id, form.formData);
+};
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const handleFormDataSubmit = (form: IChangeEvent<unknown>, _event: unknown) => {
+      setFormData(form.formData);
   };
 
-  const handleFormDataSubmit = (form: IChangeEvent<any>, event: any) => {
-    setFormData(form.formData);
-  };
 
   return (
     <div className="container">
-      <div className="rounded border m-4 ">
-        <div className="border-r p-3 flex-1">
-          <h2 className="text-red-500">Select a schema:</h2>
-          <div>
-            <Select
-              value={selectedSchema}
-              onValueChange={handleSchemaSelectChange}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select Schema" />
-              </SelectTrigger>
-              <SelectContent>
-                {Object.keys(schemaData).map((schemaName) => (
-                  <SelectItem key={schemaName} value={schemaName}>
-                    {schemaName}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
-        <div className="p-3">
-          <h1>
-            <span className="text-red-300">{selectedSchema}</span>
-          </h1>
-          <p className="text-sm">
-            React JSON Form Schema and React JSON Form UISchema
-          </p>
-        </div>
-      </div>
-
-
+     <SchemaSelector selectedSchema={selectedSchema} handleSchemaSelectChange={handleSchemaSelectChange } schemaData={defaultSchemaData} />
 
       {
         <Editors
