@@ -60,8 +60,6 @@ const Page: NextPage = () => {
 }, [selectedSchema]);
 
 
-
-
   const handleFormDataChange = (form: IChangeEvent<unknown>, id?: string) => {
     console.log(id, form.formData);
 };
@@ -70,6 +68,18 @@ const Page: NextPage = () => {
     const handleFormDataSubmit = (form: IChangeEvent<unknown>, _event: unknown) => {
       setFormData(form.formData);
   };
+
+  const handleTemplateSave = (
+    schema: RJSFSchema,
+    uiSchema?: UiSchema,
+    formData?: unknown,
+    extraErrors?: ErrorSchema
+) => {
+  console.log("-->handleTemplateSave schema-->",schema)
+  console.log("-->handleTemplateSave uiSchema-->",uiSchema)
+  console.log("-->handleTemplateSave formData-->",formData)
+  console.log("-->handleTemplateSave extraErrors-->",extraErrors)
+}
 
 
   return (
@@ -89,6 +99,7 @@ const Page: NextPage = () => {
           setExtraErrors={setExtraErrors}
           onFormDataChange={handleFormDataChange}
           onFormDataSubmit={handleFormDataSubmit}
+          onTemplateSave={handleTemplateSave}
         />
       }
     </div>
