@@ -11,9 +11,9 @@ import {
 } from '@rjsf/utils';
 
 export default function SubmitButton<
-  T = any,
+  T = unknown,
   S extends StrictRJSFSchema = RJSFSchema,
-  F extends FormContextType = any
+  F extends FormContextType = GenericObjectType
 >({ uiSchema }: SubmitButtonProps<T, S, F>) {
   const {
     submitText,

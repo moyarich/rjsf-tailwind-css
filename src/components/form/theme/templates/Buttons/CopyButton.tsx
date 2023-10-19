@@ -8,12 +8,13 @@ import {
   RJSFSchema,
   StrictRJSFSchema,
   TranslatableString,
+  GenericObjectType
 } from '@rjsf/utils';
 
 export default function CopyButton<
-  T = any,
+  T = unknown,
   S extends StrictRJSFSchema = RJSFSchema,
-  F extends FormContextType = any
+  F extends FormContextType = GenericObjectType
 >({ uiSchema, registry, ...props }: IconButtonProps<T, S, F>) {
   const { translateString } = registry;
   return (
