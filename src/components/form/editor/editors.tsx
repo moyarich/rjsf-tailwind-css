@@ -1,19 +1,19 @@
+
 import React, { useCallback, useState } from 'react';
 
 import { ErrorSchema, RJSFSchema, UiSchema, ValidatorType,FormContextType } from '@rjsf/utils';
 import { IChangeEvent, FormProps } from '@rjsf/core';
 
 import isEqualWith from 'lodash/isEqualWith';
-import Editor from './editor';
+
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { FormBuilder } from '@ginkgo-bioworks/react-json-schema-form-builder';
 
+import FormBuilderGuiEditor from "./form-builder-gui-editor";
+import Editor from './editor';
 import ThemeForm from '../theme';
 
-const toJson = (val: unknown) => JSON.stringify(val ?? {}, null, 2);
-
-
+const toJson = (val: unknown) => JSON.stringify(val ?? {}, null, "\t");
 
 interface EditorsProps {
   schema: RJSFSchema;
@@ -48,25 +48,7 @@ export default function Editors({
   onFormDataSubmit,
 }: EditorsProps) {
  
-  //-------------------
-  //-------------------
-  const onFormBuilderChange = 
-    (newSchema: string, newUiSchema: string) => {
-      setSchema(JSON.parse(newSchema));
-      setUiSchema(JSON.parse(newUiSchema));
-    }
- 
-    
-  const FormBuilderGuiEditor = () => {
-    return (
-      <FormBuilder
-        className="schema-form-builder m-2"
-        schema={JSON.stringify(schema)}
-        uischema={JSON.stringify(uiSchema)}
-        onChange={onFormBuilderChange}
-      />
-    );
-  };
+
 
   //-------------------
   //-------------------
@@ -102,11 +84,6 @@ export default function Editors({
   /**
    * Schema
    */
-  const onSchemaEdited = (newSchema: RJSFSchema) => {
-    setSchema(newSchema);
-  }
-
-
 
   const SchemaEditor = () => {
     return (
@@ -115,7 +92,7 @@ export default function Editors({
         code={toJson(schema)}
         onSave={(code: string) => {
           const codeObject = JSON.parse(code);
-          onSchemaEdited(codeObject);
+          setSchema(codeObject);
         }}
       />
     );
@@ -126,9 +103,6 @@ export default function Editors({
   /**
    * UI Schema
    */
-  const onUISchemaEdited =  (newUiSchema: UiSchema) => {
-      setUiSchema(newUiSchema);
-    }
 
 
   const UISchemaEditor = () => {
@@ -138,7 +112,7 @@ export default function Editors({
         code={toJson(uiSchema)}
         onSave={(code: string) => {
           const codeObject = JSON.parse(code);
-          onUISchemaEdited(codeObject);
+          setUiSchema(codeObject);
         }}
       />
     );
@@ -243,7 +217,14 @@ export default function Editors({
             </TabsContent>
             <TabsContent value="formDesigner">
               <div className="flex-1 mt-[49px]">
-                <FormBuilderGuiEditor />
+              <FormBuilderGuiEditor
+      schema={toJson(schema)}
+      uiSchema={toJson(uiSchema)}
+        onChange={(newSchema: string, newUiSchema: string) => {
+          setSchema(JSON.parse(newSchema));
+          setUiSchema(JSON.parse(newUiSchema));
+        }}
+      />
               </div>
             </TabsContent>
           </div>
