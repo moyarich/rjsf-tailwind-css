@@ -11,7 +11,7 @@ import {
 } from '@rjsf/utils';
 
 export default function SelectWidget<
-  T = any,
+  T = unknown,
   S extends StrictRJSFSchema = RJSFSchema,
   F extends FormContextType = GenericObjectType
 >({

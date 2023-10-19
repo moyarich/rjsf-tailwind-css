@@ -13,7 +13,7 @@ import {
  * @param props - The `WidgetProps` for this component
  */
 function TextareaWidget<
-  T = any,
+  T = unknown,
   S extends StrictRJSFSchema = RJSFSchema,
   F extends FormContextType = GenericObjectType
 >({

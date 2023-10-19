@@ -12,7 +12,7 @@ import {
 } from '@rjsf/utils';
 
 export default function ObjectFieldTemplate<
-  T = any,
+  T = unknown,
   S extends StrictRJSFSchema = RJSFSchema,
   F extends FormContextType = GenericObjectType
 >({

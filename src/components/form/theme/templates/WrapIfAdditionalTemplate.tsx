@@ -14,7 +14,7 @@ import { Label } from '../ui/label';
 import { Input } from '../ui/input';
 
 export default function WrapIfAdditionalTemplate<
-  T = any,
+  T = unknown,
   S extends StrictRJSFSchema = RJSFSchema,
   F extends FormContextType = GenericObjectType
 >(props: WrapIfAdditionalTemplateProps<T, S, F>) {

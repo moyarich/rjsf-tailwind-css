@@ -11,7 +11,7 @@ import {
  * @param props - The `DescriptionFieldProps` for this component
  */
 export default function DescriptionField<
-  T = any,
+  T = unknown,
   S extends StrictRJSFSchema = RJSFSchema,
   F extends FormContextType = GenericObjectType
 >(props: DescriptionFieldProps<T, S, F>) {

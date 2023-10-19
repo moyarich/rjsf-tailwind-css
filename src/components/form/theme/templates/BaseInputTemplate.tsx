@@ -18,7 +18,7 @@ const INPUT_STYLE = {
 };
 
 export default function BaseInputTemplate<
-  T = any,
+  T = unknown,
   S extends StrictRJSFSchema = RJSFSchema,
   F extends FormContextType = GenericObjectType
 >(props: BaseInputTemplateProps<T, S, F>) {

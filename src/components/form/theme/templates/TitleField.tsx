@@ -13,7 +13,7 @@ const REQUIRED_FIELD_SYMBOL = '*';
  * @param props - The `TitleFieldProps` for this component
  */
 export default function TitleField<
-  T = any,
+  T = unknown,
   S extends StrictRJSFSchema = RJSFSchema,
   F extends FormContextType = GenericObjectType
 >(props: TitleFieldProps<T, S, F>) {

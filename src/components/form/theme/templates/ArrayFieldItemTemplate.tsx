@@ -14,7 +14,7 @@ import { cn } from '../utils';
  * @param props - The `ArrayFieldTemplateItemType` props for the component
  */
 export default function ArrayFieldItemTemplate<
-  T = any,
+  T = unknown,
   S extends StrictRJSFSchema = RJSFSchema,
   F extends FormContextType = GenericObjectType
 >(props: ArrayFieldTemplateItemType<T, S, F>) {

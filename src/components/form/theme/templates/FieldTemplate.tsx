@@ -11,7 +11,7 @@ import {
 import { Label } from '../ui/label';
 
 export default function FieldTemplate<
-  T = any,
+  T = unknown,
   S extends StrictRJSFSchema = RJSFSchema,
   F extends FormContextType = GenericObjectType
 >({

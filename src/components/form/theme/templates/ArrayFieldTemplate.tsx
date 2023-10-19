@@ -18,7 +18,7 @@ import { cn } from '../utils';
  */
 
 export default function ArrayFieldTemplate<
-  T = any,
+  T = unknown,
   S extends StrictRJSFSchema = RJSFSchema,
   F extends FormContextType = GenericObjectType
 >(props: ArrayFieldTemplateProps<T, S, F>) {
