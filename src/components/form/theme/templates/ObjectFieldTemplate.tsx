@@ -70,7 +70,7 @@ export default function ObjectFieldTemplate<
         {properties.map((element: any, index: number) => (
           <div
             key={index}
-            className={`object-property border-1 border-gray-100 p-1 rounded-md ${
+            className={`object-property border-1 border p-1 rounded-md ${
               element.hidden ? ' hidden' : ''
             }`}
           >

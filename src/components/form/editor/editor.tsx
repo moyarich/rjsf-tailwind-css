@@ -57,7 +57,7 @@ export default function Editor({
 
   return (
     <div className="h-full">
-      <div className="header flex p-2 items-center border-b-2 border-gray-100 p-1">
+      <div className="header flex p-2 items-center border-b-2 border p-1">
         <div className="p-2 gap-1 inline-flex items-center">
           {icon}
           <span className={cls}>{title}</span>

@@ -194,7 +194,7 @@ export default function Editors({
                     <TabsTrigger value="extraErrors">FormData</TabsTrigger>
                   )}
                 </TabsList>
-                <div className="nested-tab-contents mt-3 h-[500px] border-1 pb-2 overflow-hidden rounded-md resize">
+                <div className="nested-tab-contents mt-3 h-[500px]  border-1 pb-2 overflow-hidden rounded-md resize">
                   <TabsContent value="schema" className="h-full">
                     <SchemaEditor />
                   </TabsContent>

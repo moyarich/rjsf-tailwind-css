@@ -68,13 +68,13 @@ export default function FieldTemplate<
         {displayLabel && (
           <Label
             htmlFor={id}
-            className={rawErrors.length > 0 ? 'text-danger' : ''}
+            className={`field-label ${rawErrors.length > 0 ? 'text-danger' : ''}`}
           >
             {label}
             {required ? REQUIRED_FIELD_SYMBOL : null}
           </Label>
         )}
-        {children}
+        <div className="field-content">{children}</div>
         {displayLabel && rawDescription && (
           <div
             className={`font-inter text-sm ${

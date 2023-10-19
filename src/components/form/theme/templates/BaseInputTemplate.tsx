@@ -3,7 +3,6 @@ import { Input } from '../ui/input';
 
 import {
   FormContextType,
-  GenericObjectType,
   RJSFSchema,
   StrictRJSFSchema,
   BaseInputTemplateProps,
