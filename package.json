@@ -2,7 +2,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "@ginkgo-bioworks/react-json-schema-form-builder": "^3.0.0",
@@ -34,9 +35,12 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.199",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
     "autoprefixer": "^10.4.15",
     "eslint": "^8.51.0",
+    "eslint-config-next": "^13.5.6",
     "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-header": "^3.1.1",
     "postcss": "^8.4.29",
     "tailwindcss": "^3.3.3"
   }
