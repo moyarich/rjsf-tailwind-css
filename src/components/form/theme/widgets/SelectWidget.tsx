@@ -7,12 +7,13 @@ import {
   RJSFSchema,
   StrictRJSFSchema,
   WidgetProps,
+  GenericObjectType
 } from '@rjsf/utils';
 
 export default function SelectWidget<
   T = any,
   S extends StrictRJSFSchema = RJSFSchema,
-  F extends FormContextType = any
+  F extends FormContextType = GenericObjectType
 >({
   schema,
   id,

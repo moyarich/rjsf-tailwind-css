@@ -5,6 +5,7 @@ import {
   getUiOptions,
   RJSFSchema,
   StrictRJSFSchema,
+  GenericObjectType
 } from '@rjsf/utils';
 
 import { Label } from '../ui/label';
@@ -12,7 +13,7 @@ import { Label } from '../ui/label';
 export default function FieldTemplate<
   T = any,
   S extends StrictRJSFSchema = RJSFSchema,
-  F extends FormContextType = any
+  F extends FormContextType = GenericObjectType
 >({
   id,
   children,

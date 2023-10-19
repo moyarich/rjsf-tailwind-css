@@ -5,6 +5,7 @@ import {
   RJSFSchema,
   StrictRJSFSchema,
   WidgetProps,
+  GenericObjectType
 } from '@rjsf/utils';
 
 /** The `TextareaWidget` is a widget for rendering input fields as textarea.
@@ -14,7 +15,7 @@ import {
 function TextareaWidget<
   T = any,
   S extends StrictRJSFSchema = RJSFSchema,
-  F extends FormContextType = any
+  F extends FormContextType = GenericObjectType
 >({
   id,
   options = {},

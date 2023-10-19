@@ -8,12 +8,13 @@ import {
   RJSFSchema,
   StrictRJSFSchema,
   titleId,
+  GenericObjectType
 } from '@rjsf/utils';
 
 export default function ObjectFieldTemplate<
   T = any,
   S extends StrictRJSFSchema = RJSFSchema,
-  F extends FormContextType = any
+  F extends FormContextType = GenericObjectType
 >({
   description,
   title,

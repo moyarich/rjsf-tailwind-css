@@ -10,6 +10,7 @@ import {
   ariaDescribedByIds,
   examplesId,
   getInputProps,
+  GenericObjectType
 } from '@rjsf/utils';
 
 const INPUT_STYLE = {
@@ -19,7 +20,7 @@ const INPUT_STYLE = {
 export default function BaseInputTemplate<
   T = any,
   S extends StrictRJSFSchema = RJSFSchema,
-  F extends FormContextType = any
+  F extends FormContextType = GenericObjectType
 >(props: BaseInputTemplateProps<T, S, F>) {
   const {
     disabled,

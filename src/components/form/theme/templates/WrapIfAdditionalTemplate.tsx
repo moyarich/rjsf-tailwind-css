@@ -5,6 +5,7 @@ import {
   StrictRJSFSchema,
   TranslatableString,
   WrapIfAdditionalTemplateProps,
+  GenericObjectType
 } from '@rjsf/utils';
 
 import { cn } from '../utils';
@@ -15,7 +16,7 @@ import { Input } from '../ui/input';
 export default function WrapIfAdditionalTemplate<
   T = any,
   S extends StrictRJSFSchema = RJSFSchema,
-  F extends FormContextType = any
+  F extends FormContextType = GenericObjectType
 >(props: WrapIfAdditionalTemplateProps<T, S, F>) {
   const {
     id,

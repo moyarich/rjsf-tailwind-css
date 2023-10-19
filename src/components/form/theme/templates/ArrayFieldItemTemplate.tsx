@@ -4,6 +4,7 @@ import {
   FormContextType,
   RJSFSchema,
   StrictRJSFSchema,
+  GenericObjectType
 } from '@rjsf/utils';
 
 import { cn } from '../utils';
@@ -15,7 +16,7 @@ import { cn } from '../utils';
 export default function ArrayFieldItemTemplate<
   T = any,
   S extends StrictRJSFSchema = RJSFSchema,
-  F extends FormContextType = any
+  F extends FormContextType = GenericObjectType
 >(props: ArrayFieldTemplateItemType<T, S, F>) {
   const {
     children,

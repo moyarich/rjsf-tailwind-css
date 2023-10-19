@@ -3,6 +3,7 @@ import {
   TitleFieldProps,
   RJSFSchema,
   StrictRJSFSchema,
+  GenericObjectType
 } from '@rjsf/utils';
 
 const REQUIRED_FIELD_SYMBOL = '*';
@@ -14,7 +15,7 @@ const REQUIRED_FIELD_SYMBOL = '*';
 export default function TitleField<
   T = any,
   S extends StrictRJSFSchema = RJSFSchema,
-  F extends FormContextType = any
+  F extends FormContextType = GenericObjectType
 >(props: TitleFieldProps<T, S, F>) {
   const { id, title, required } = props;
   return (
