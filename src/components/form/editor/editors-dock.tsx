@@ -1,4 +1,6 @@
+"use client"
 
+import 'rc-dock/dist/rc-dock.css';
 import React, { useCallback, useState } from 'react';
 
 import { ErrorSchema, RJSFSchema, UiSchema, ValidatorType,FormContextType } from '@rjsf/utils';
@@ -6,7 +8,7 @@ import { IChangeEvent, FormProps } from '@rjsf/core';
 
 import isEqualWith from 'lodash/isEqualWith';
 
-import DockLayout, { DockMode } from 'rc-dock';
+import DockLayout, { DockMode, LayoutData } from 'rc-dock';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -52,16 +54,6 @@ export default function Editors({
 }: EditorsProps) {
  
 
-  const [activeTab, setActiveTab] = useState('source');
-  const [subActiveTab, setSubActiveTab] = useState('schema');
-
-  const handleTabChange = (tabKey) => {
-    setActiveTab(tabKey);
-  };
-
-  const handleSubTabChange = (tabKey) => {
-    setSubActiveTab(tabKey);
-  };
 
   const _onTemplateSave = () => {
     onTemplateSave && onTemplateSave(schema ,uiSchema,formData, extraErrors)
@@ -191,127 +183,112 @@ export default function Editors({
       />
     );
   };
-/*
+
+
+
+
+const defaultLayout = {
+  dockbox: {
+    mode: 'horizontal' as DockMode, 
+      children: [
+        {
+          tabs: [
+            { id: 'tab1', title: 'tab1', content: <div>Hello World</div> },
+            { id: 'source', title: 'Source' , content: <div>Hello World</div>},
+            { id: 'formDesigner', title: 'Form Designer' , content:   <FormBuilderGuiEditor
+            schema={toJson(schema)}
+            uiSchema={toJson(uiSchema)}
+              onChange={(newSchema: string, newUiSchema: string) => {
+                setSchema(JSON.parse(newSchema));
+                setUiSchema(JSON.parse(newUiSchema));
+              }}
+            />},
+          ],
+        },
+        {
+          tabs: [
+            { id: 'schema', title: 'Schema', content: <SchemaEditor /> },
+            { id: 'uiSchema', title: 'UiSchema', content:  <UISchemaEditor /> },
+            { id: 'formData', title: 'FormData' , content: <FormDataEditor />},
+            { id: 'preview', title: 'Preview' , content: <FormPreview />},
+            ...(extraErrors
+              ? [{ id: 'extraErrors', title: 'Extra Errors', content: <ExtraErrorsEditorEditor /> }]
+              : []),
+          ],
+        },  
+    ],
+  },
+};
+
+
+
+
+
   return (
     <div className="mb-4">
-                <div className="header flex pt-2 items-center">
-                {editorTitle && (<div className="p-2 gap-1 inline-flex items-center">
-                    <span className="text-lg">{editorTitle}</span>
-                </div>)}
-                <div className="action flex flex-1 items-center justify-end">
-                    <button
-                        className="bg-primary text-primary-foreground shadow hover:bg-primary/90 py-2 rounded-tl-md rounded-tr-md px-8"
-                        onClick={_onTemplateSave}
-                    >
-                        Save Template
-                    </button>
-                </div>
-            </div>
-            <div className="p-1 rounded-tl-md rounded-bl-md rounded-br-md border-4  border-primary border-opacity-10">
-      <Tabs defaultValue="source">
-        <TabsList className="w-full justify-start inline-flex h-9 items-center rounded-lg bg-muted p-1 text-muted-foreground">
-          <TabsTrigger value="source">Source</TabsTrigger>
-          <TabsTrigger value="formDesigner">Form Designer</TabsTrigger>
-        </TabsList>
-        <div className="flex gap-[15px] mb-6">
-          <div className="flex-1">
-            <TabsContent value="source">
-              <Tabs defaultValue="schema">
-                <TabsList className="h-[25px]">
-                  <TabsTrigger value="schema">Schema</TabsTrigger>
-                  <TabsTrigger value="uiSchema">UiSchema</TabsTrigger>
-                  <TabsTrigger value="formData">FormData</TabsTrigger>
-
-                  {extraErrors && (
-                    <TabsTrigger value="extraErrors">FormData</TabsTrigger>
-                  )}
-                </TabsList>
-                <div className="nested-tab-contents mt-3 h-[500px]  border-1 pb-2 overflow-hidden rounded-md resize">
-                  <TabsContent value="schema" className="h-full">
-                    <SchemaEditor />
-                  </TabsContent>
-
-                  <TabsContent value="uiSchema" className="h-full">
-                    <UISchemaEditor />
-                  </TabsContent>
-
-                  <TabsContent value="formData" className="h-full">
-                    <FormDataEditor />
-                  </TabsContent>
-
-                  {extraErrors && (
-                    <TabsContent value="extraErrors" className="h-full">
-                      <ExtraErrorsEditorEditor />
-                    </TabsContent>
-                  )}
-                </div>
-              </Tabs>
-            </TabsContent>
-            <TabsContent value="formDesigner">
-              <div className="flex-1 mt-[49px]">
-              <FormBuilderGuiEditor
-      schema={toJson(schema)}
-      uiSchema={toJson(uiSchema)}
-        onChange={(newSchema: string, newUiSchema: string) => {
-          setSchema(JSON.parse(newSchema));
-          setUiSchema(JSON.parse(newUiSchema));
+      <div className="header flex pt-2 items-center">
+        {/* Header Content */}
+      </div>
+      <div className="h-screen relative p-1 rounded-tl-md rounded-bl-md rounded-br-md border-4  border-primary border-opacity-10">
+      <DockLayout
+        defaultLayout={defaultLayout}
+        style={{
+          position: 'absolute',
+          left: 10,
+          top: 10,
+          right: 10,
+          bottom: 10,
         }}
       />
-              </div>
-            </TabsContent>
-          </div>
-          <div className="mt-[49px] flex-1 border rounded-md overflow-hidden resize py-4 px-6 h-full">
-            <FormPreview />
-          </div>
-        </div>
-      </Tabs>
-    </div>
+ 
+      </div>
     </div>
   );
-*/
-/*
-<div
-dockId="source"
-className={`dock-panel ${activeTab === 'source' ? 'active' : ''}`}
->
-<div className="nested-tab-contents mt-3 h-[500px] border-1 pb-2 overflow-hidden rounded-md resize">
-  {activeTab === 'source' && subActiveTab === 'schema' && (
-    <SchemaEditor />
-  )}
-  {activeTab === 'source' && subActiveTab === 'uiSchema' && (
-    <UISchemaEditor />
-  )}
-  {activeTab === 'source' && subActiveTab === 'formData' && (
-    <FormDataEditor />
-  )}
-  {activeTab === 'source' && subActiveTab === 'extraErrors' && (
-    <ExtraErrorsEditorEditor />
-  )}
-</div>
-</div>
-<div
-dockId="formDesigner"
-className={`dock-panel ${
-  activeTab === 'formDesigner' ? 'active' : ''
-}`}
->
-<div className="flex-1 mt-[49px]">
-  <FormBuilderGuiEditor
-    schema={toJson(schema)}
-    uiSchema={toJson(uiSchema)}
-    onChange={(newSchema: string, newUiSchema: string) => {
-      setSchema(JSON.parse(newSchema));
-      setUiSchema(JSON.parse(newUiSchema));
-    }}
-  />
-</div>
+}
+
+  /*
+const defaultLayout3: LayoutData = {
+  dockbox: {
+    mode: 'horizontal' as DockMode,
+    children: [
+      {
+        mode: 'vertical' as DockMode,
+        children: [
+          {
+            tabs: [ { id: 'formDesigner', title: 'Form Designer' , content:   <FormBuilderGuiEditor schema={toJson(schema)} uiSchema={toJson(uiSchema)} onChange={(newSchema: string, newUiSchema: string) => { setSchema(JSON.parse(newSchema)); setUiSchema(JSON.parse(newUiSchema)); }}/>},
+          ],
+          },
+          {
+            tabs: [
+              { id: 'schema', title: 'Schema', content: <SchemaEditor /> },
+              { id: 'uiSchema', title: 'UiSchema', content:  <UISchemaEditor /> },
+              ...(extraErrors
+                ? [{ id: 'extraErrors', title: 'Extra Errors', content: <ExtraErrorsEditorEditor /> }]
+                : []),
+            ],
+          },
+        ],
+      },
+      {
+        mode: 'horizontal' as DockMode,
+        children: [
+          {
+            mode: 'vertical' as DockMode,
+            children: [
+              {
+                tabs: [ { id: 'preview', title: 'Preview' , content: <FormPreview />},
+                { id: 'formData', title: 'FormData' , content: <FormDataEditor />},
+              ],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+};
 
 
-       <div className="mt-[49px] flex-1 border rounded-md overflow-hidden resize py-4 px-6 h-full">
-          <FormPreview />
-        </div>
-</div>
-*/
 
 const defaultLayout = {
   dockbox: {
@@ -345,25 +322,57 @@ const defaultLayout = {
   },
 };
 
+*/
 
-  return (
-    <div className="mb-4">
-      <div className="header flex pt-2 items-center">
-        {/* Header Content */}
-      </div>
-      <div className="relative p-1 rounded-tl-md rounded-bl-md rounded-br-md border-4  border-primary border-opacity-10">
-      <DockLayout
-        defaultLayout={defaultLayout}
-        style={{
-          position: 'absolute',
-          left: 10,
-          top: 10,
-          right: 10,
-          bottom: 10,
-        }}
-      />
- 
-      </div>
-    </div>
-  );
-}
+
+  /*
+  const defaultLayoutSource = {
+    dockbox: {
+      mode: 'horizontal' as DockMode, 
+        children: [
+          {
+            tabs: [
+              { id: 'schema', title: 'Schema', content: <SchemaEditor /> },
+              { id: 'uiSchema', title: 'UiSchema', content:  <UISchemaEditor /> },
+              { id: 'formData', title: 'FormData' , content: <FormDataEditor />},
+              ...(extraErrors
+                ? [{ id: 'extraErrors', title: 'Extra Errors', content: <ExtraErrorsEditorEditor /> }]
+                : []),
+            ],
+          },  
+      ],
+    },
+  };
+  const defaultLayout2 = {
+  dockbox: {
+    mode: 'horizontal' as DockMode, 
+      children: [
+        {
+          tabs: [
+            { id: 'source', title: 'Source' , content:  <DockLayout
+            defaultLayout={defaultLayoutSource}
+            style={{
+              position: 'absolute',
+              left: 10,
+              top: 10,
+              right: 10,
+              bottom: 10,
+            }}
+          />},
+            { id: 'formDesigner', title: 'Form Designer' , content:   <FormBuilderGuiEditor schema={toJson(schema)} uiSchema={toJson(uiSchema)} onChange={(newSchema: string, newUiSchema: string) => { setSchema(JSON.parse(newSchema)); setUiSchema(JSON.parse(newUiSchema)); }}/>},
+          ],
+        }
+    ],
+  },
+};
+const createTab = (tabInfo: string, props = {}) => {
+  let customTab = {
+    id: `${tabInfo}-sed`,
+    title: tabInfo,
+    content: <div>{`Content for ${tabInfo}`}</div>,
+    //closable: true,
+    //group: 'card custom',
+  };
+  return { ...customTab, ...props };
+};
+*/

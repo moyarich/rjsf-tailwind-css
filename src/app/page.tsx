@@ -10,7 +10,7 @@ import { IChangeEvent } from '@rjsf/core';
 
 import validator from '@rjsf/validator-ajv8';
 
-import Editors from '@/components/form/editor/editors';
+import Editors from '@/components/form/editor/editors-dock';
 
 // Import your schema and uiSchema data here
 import * as homeSchema from '@/schemas/home';
