@@ -1,14 +1,13 @@
-"use client"
 
-import 'rc-dock/dist/rc-dock.css';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { ErrorSchema, RJSFSchema, UiSchema, ValidatorType,FormContextType } from '@rjsf/utils';
 import { IChangeEvent, FormProps } from '@rjsf/core';
 
 import isEqualWith from 'lodash/isEqualWith';
 
-import DockLayout, { DockMode, LayoutData } from 'rc-dock';
+import DockLayout, { DockMode, DropDirection, LayoutBase, LayoutData, TabBase, TabData } from "rc-dock";
+import "rc-dock/dist/rc-dock.css";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
@@ -37,6 +36,7 @@ interface EditorsProps {
   onTemplateSave?:(schema : RJSFSchema,uiSchema?: UiSchema,formData?:unknown, extraErrors?:ErrorSchema ) => void
 }
 
+
 export default function Editors({
   editorTitle,
   extraErrors,
@@ -57,7 +57,6 @@ export default function Editors({
 
   const _onTemplateSave = () => {
     onTemplateSave && onTemplateSave(schema ,uiSchema,formData, extraErrors)
-
   }
 
   //-------------------
@@ -75,6 +74,16 @@ export default function Editors({
       onFormDataSubmit && onFormDataSubmit(form, event);
     }
 
+    const FormBuilderGui = () => {
+      return (<FormBuilderGuiEditor
+      schema={toJson(schema)}
+      uiSchema={toJson(uiSchema)}
+      onSave={(newSchema: string, newUiSchema: string) => {
+          setSchema(JSON.parse(newSchema));
+          setUiSchema(JSON.parse(newUiSchema));
+        }}
+      />)
+      }
 
   const FormPreview = () => {
     return (
@@ -187,192 +196,123 @@ export default function Editors({
 
 
 
-const defaultLayout = {
-  dockbox: {
-    mode: 'horizontal' as DockMode, 
-      children: [
-        {
-          tabs: [
-            { id: 'tab1', title: 'tab1', content: <div>Hello World</div> },
-            { id: 'source', title: 'Source' , content: <div>Hello World</div>},
-            { id: 'formDesigner', title: 'Form Designer' , content:   <FormBuilderGuiEditor
-            schema={toJson(schema)}
-            uiSchema={toJson(uiSchema)}
-              onChange={(newSchema: string, newUiSchema: string) => {
-                setSchema(JSON.parse(newSchema));
-                setUiSchema(JSON.parse(newUiSchema));
-              }}
-            />},
-          ],
-        },
-        {
-          tabs: [
-            { id: 'schema', title: 'Schema', content: <SchemaEditor /> },
-            { id: 'uiSchema', title: 'UiSchema', content:  <UISchemaEditor /> },
-            { id: 'formData', title: 'FormData' , content: <FormDataEditor />},
-            { id: 'preview', title: 'Preview' , content: <FormPreview />},
-            ...(extraErrors
-              ? [{ id: 'extraErrors', title: 'Extra Errors', content: <ExtraErrorsEditorEditor /> }]
-              : []),
-          ],
-        },  
-    ],
-  },
-};
+  const loadTab = ({ id }: TabBase): TabData => {
+    let tab = {} as TabData;
 
+    switch (id) {
+      case "uiSchema":
+        tab = {
+          id: "uiSchema",
+          title: "UiSchema",
+          content: <div className="relative overflow-auto h-screen p-2 m-2"><UISchemaEditor /></div>,
+        };
+        break;
+      case "formData":
+        tab = {
+          id: "formData",
+          title: "FormData",
+          content: <div className="relative overflow-auto h-screen p-2 m-2"><FormDataEditor /></div>,
+        };
+        break;
+        case "formBuilder":
+          tab = { id: "formBuilder", title: "Form Builder", content: <div className="relative overflow-auto h-screen p-2 m-2"><FormBuilderGui /></div> };
+     
+        break;
+      case "preview":
+        tab = { id: "preview", title: "Preview", content: <div className="relative overflow-auto h-screen p-2 m-2"><FormPreview /> </div>};
+        break;
+      case "extraErrors":
+        tab = {
+          id: "extraErrors",
+          title: "Extra Errors",
+          content: <div className="relative overflow-auto h-screen p-2 m-2"><ExtraErrorsEditorEditor /></div>,
+        };
+        case "schema":
+          default:
+          tab = {
+            id: "schema",
+            title: "Schema",
+            content: <div className="relative overflow-auto h-screen p-2 m-2"><SchemaEditor /></div>,
+          };
+          break;
+    }
 
-
-
-
-  return (
-    <div className="mb-4">
-      <div className="header flex pt-2 items-center">
-        {/* Header Content */}
-      </div>
-      <div className="h-screen relative p-1 rounded-tl-md rounded-bl-md rounded-br-md border-4  border-primary border-opacity-10">
-      <DockLayout
-        defaultLayout={defaultLayout}
-        style={{
-          position: 'absolute',
-          left: 10,
-          top: 10,
-          right: 10,
-          bottom: 10,
-        }}
-      />
- 
-      </div>
-    </div>
-  );
-}
-
-  /*
-const defaultLayout3: LayoutData = {
-  dockbox: {
-    mode: 'horizontal' as DockMode,
-    children: [
-      {
-        mode: 'vertical' as DockMode,
-        children: [
-          {
-            tabs: [ { id: 'formDesigner', title: 'Form Designer' , content:   <FormBuilderGuiEditor schema={toJson(schema)} uiSchema={toJson(uiSchema)} onChange={(newSchema: string, newUiSchema: string) => { setSchema(JSON.parse(newSchema)); setUiSchema(JSON.parse(newUiSchema)); }}/>},
-          ],
-          },
-          {
-            tabs: [
-              { id: 'schema', title: 'Schema', content: <SchemaEditor /> },
-              { id: 'uiSchema', title: 'UiSchema', content:  <UISchemaEditor /> },
-              ...(extraErrors
-                ? [{ id: 'extraErrors', title: 'Extra Errors', content: <ExtraErrorsEditorEditor /> }]
-                : []),
-            ],
-          },
-        ],
-      },
-      {
-        mode: 'horizontal' as DockMode,
-        children: [
-          {
-            mode: 'vertical' as DockMode,
-            children: [
-              {
-                tabs: [ { id: 'preview', title: 'Preview' , content: <FormPreview />},
-                { id: 'formData', title: 'FormData' , content: <FormDataEditor />},
-              ],
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-};
-
-
-
-const defaultLayout = {
-  dockbox: {
-    mode: 'horizontal' as DockMode, 
-      children: [
-        {
-          tabs: [
-            { id: 'tab1', title: 'tab1', content: <div>Hello World</div> },
-            { id: 'source', title: 'Source' , content: <div>Hello World</div>},
-            { id: 'formDesigner', title: 'Form Designer' , content:   <FormBuilderGuiEditor
-            schema={toJson(schema)}
-            uiSchema={toJson(uiSchema)}
-              onChange={(newSchema: string, newUiSchema: string) => {
-                setSchema(JSON.parse(newSchema));
-                setUiSchema(JSON.parse(newUiSchema));
-              }}
-            />},
-          ],
-        },
-        {
-          tabs: [
-            { id: 'schema', title: 'Schema', content: <SchemaEditor /> },
-            { id: 'uiSchema', title: 'UiSchema', content:  <UISchemaEditor /> },
-            { id: 'formData', title: 'FormData' , content: <FormDataEditor />},
-            ...(extraErrors
-              ? [{ id: 'extraErrors', title: 'Extra Errors', content: <ExtraErrorsEditorEditor /> }]
-              : []),
-          ],
-        },  
-    ],
-  },
-};
-
-*/
-
-
-  /*
-  const defaultLayoutSource = {
-    dockbox: {
-      mode: 'horizontal' as DockMode, 
-        children: [
-          {
-            tabs: [
-              { id: 'schema', title: 'Schema', content: <SchemaEditor /> },
-              { id: 'uiSchema', title: 'UiSchema', content:  <UISchemaEditor /> },
-              { id: 'formData', title: 'FormData' , content: <FormDataEditor />},
-              ...(extraErrors
-                ? [{ id: 'extraErrors', title: 'Extra Errors', content: <ExtraErrorsEditorEditor /> }]
-                : []),
-            ],
-          },  
-      ],
-    },
+    return tab;
   };
-  const defaultLayout2 = {
-  dockbox: {
-    mode: 'horizontal' as DockMode, 
+
+  const defaultLayout: LayoutBase = {
+    dockbox: {
+      mode: 'horizontal' as DockMode,
       children: [
         {
+          mode: 'vertical' as DockMode,
+          children: [
+  
+            {
+              tabs: [
+    
+                { id: "schema"},
+                { id: "uiSchema"},
+                //...(extraErrors ? [{ id: 'extraErrors'}] : []),
+                { id: "formBuilder"},
+              ],
+            }
+          ],
+        },
+      
+      {    mode: 'vertical' as DockMode,
+      children: [
+  
+        {
           tabs: [
-            { id: 'source', title: 'Source' , content:  <DockLayout
-            defaultLayout={defaultLayoutSource}
-            style={{
-              position: 'absolute',
-              left: 10,
-              top: 10,
-              right: 10,
-              bottom: 10,
-            }}
-          />},
-            { id: 'formDesigner', title: 'Form Designer' , content:   <FormBuilderGuiEditor schema={toJson(schema)} uiSchema={toJson(uiSchema)} onChange={(newSchema: string, newUiSchema: string) => { setSchema(JSON.parse(newSchema)); setUiSchema(JSON.parse(newUiSchema)); }}/>},
+            { id: "preview"},
+            { id: "formData"},
           ],
         }
-    ],
-  },
-};
-const createTab = (tabInfo: string, props = {}) => {
-  let customTab = {
-    id: `${tabInfo}-sed`,
-    title: tabInfo,
-    content: <div>{`Content for ${tabInfo}`}</div>,
-    //closable: true,
-    //group: 'card custom',
+      ]}],
+    },
   };
-  return { ...customTab, ...props };
-};
-*/
+  
+  
+  const [layout, setLayout] = useState<LayoutBase>(defaultLayout);
+
+  useEffect(()=>{
+   dockLayoutRef.loadLayout(layout as LayoutBase);
+  })
+
+  let dockLayoutRef: DockLayout;
+
+  const getRef = (r: DockLayout) => {
+   dockLayoutRef = r;
+  };
+return (  <div className="mb-4">
+<div className="header flex pt-2 items-center">
+{editorTitle && (<div className="p-2 gap-1 inline-flex items-center">
+    <span className="text-lg">{editorTitle}</span>
+</div>)}
+<div className="action flex flex-1 items-center justify-end">
+    <button
+        className="bg-primary text-primary-foreground shadow hover:bg-primary/90 py-2 rounded-tl-md rounded-tr-md px-8"
+        onClick={_onTemplateSave}
+    >
+        Save Template
+    </button>
+</div>
+</div>
+<div className="relative h-screen">
+  <DockLayout
+  ref={getRef}
+  layout={layout}
+  loadTab={loadTab}
+  dropMode="edge"
+  style={{
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 10,
+    marginBottom:"10px"
+  }}
+  onLayoutChange={newLayout => { setLayout(newLayout); }}
+/></div></div>)
+}
