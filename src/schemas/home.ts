@@ -1,3 +1,4 @@
+import { ISample } from '@/types';
 import { RJSFSchema, UiSchema } from '@rjsf/utils';
 
 export const schema: RJSFSchema = {
@@ -400,3 +401,11 @@ export const formData = {
     },
   },
 };
+
+const sample : ISample = {
+  schema,
+  uiSchema,
+  formData
+}
+
+export default sample

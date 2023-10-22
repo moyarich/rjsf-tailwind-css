@@ -30,7 +30,8 @@ export default function SelectWidget<
   placeholder,
   rawErrors = [],
 }: WidgetProps<T, S, F>) {
-  const { enumOptions, enumDisabled, emptyValue: optEmptyValue } = options;
+  console.log("SelectWidget options------>",options )
+  const { enum:enumOptions, enumDisabled, emptyValue: optEmptyValue } = options;
 
   const emptyValue = multiple ? [] : '';
 

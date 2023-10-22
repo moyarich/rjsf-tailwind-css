@@ -81,3 +81,11 @@ export const formData = {
     username: 'user123_username',
   },
 };
+
+const sample = {
+  schema,
+  uiSchema,
+  formData
+}
+
+export default sample

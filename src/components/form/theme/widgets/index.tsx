@@ -4,5 +4,5 @@ import SelectWidget from './SelectWidget';
 
 export const widgets: RegistryWidgetsType = {
   TextareaWidget,
-  SelectWidget,
+  //SelectWidget,
 };

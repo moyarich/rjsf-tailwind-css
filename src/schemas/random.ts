@@ -6,6 +6,7 @@ export const schema: RJSFSchema = {
   type: 'object',
   required: ['firstName', 'lastName'],
   properties: {
+
     rating: {
       type: 'integer',
       minimum: 0,
@@ -43,7 +44,7 @@ export const schema: RJSFSchema = {
         },
       },
     },
-    firstName: {
+    name: {
       type: 'string',
       title: 'First name',
       default: 'Chuck',
@@ -82,6 +83,17 @@ export const schema: RJSFSchema = {
       type: 'boolean',
       default: true,
     },
+    "browser": {
+      "type": "string",
+      "title": "Browser",
+      "examples": [
+        "Firefox",
+        "Chrome",
+        "Opera",
+        "Vivaldi",
+        "Safari"
+      ]
+    }
     /*
     emotions: {
       enum: ['sad', 'happy', 'afraid'],
@@ -128,6 +140,17 @@ export const uiSchema: UiSchema = {
   emotions: {
     'ui:widget': 'radio',
   },
+
+  
+  
 };
 
 export const formData = {};
+
+const sample = {
+  schema,
+  uiSchema,
+  formData
+}
+
+export default sample

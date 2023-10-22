@@ -12,23 +12,17 @@ import validator from "@rjsf/validator-ajv8";
 
 import Editors from "@/components/form/editor/editors-dock";
 
-// Import your schema and uiSchema data here
-import * as homeSchema from "@/schemas/home";
-import * as menuSchema from "@/schemas/menu";
-import * as randomSchema from "@/schemas/random";
-import * as videoSchema from "@/schemas/video";
-import * as testingSchema from "@/schemas/_testing";
 
-const defaultSchemaData = {
-    Home: homeSchema,
-    Menu: menuSchema,
-    Random: randomSchema,
-    Video: videoSchema,
-    Testing: testingSchema,
-    //'Diseases': diseasesSchema,
-};
 
 import { SchemaSelector } from "@/components/schema-selector";
+import customsSamples from "@/schemas"
+import rjsfPlaygroundSamples from "@/schemas/samples"
+
+const schemasSamples = {
+    ...customsSamples,
+    ...rjsfPlaygroundSamples
+
+}
 
 const Page: NextPage = () => {
     const params = useParams();
@@ -50,7 +44,7 @@ const Page: NextPage = () => {
             schema: s = {},
             uiSchema: uiS = {},
             formData: fd = {},
-        } = defaultSchemaData?.[selectedSchema as keyof typeof defaultSchemaData] ?? {};
+        } = schemasSamples?.[selectedSchema as keyof typeof schemasSamples] ?? {};
 
         setSchema(s as RJSFSchema);
         setUiSchema(uiS as RJSFSchema);
@@ -83,7 +77,7 @@ const Page: NextPage = () => {
             <SchemaSelector
                 selectedSchema={selectedSchema}
                 handleSchemaSelectChange={handleSchemaSelectChange}
-                schemaData={defaultSchemaData}
+                schemaData={schemasSamples}
             />
 
             {

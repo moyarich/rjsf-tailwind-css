@@ -53,3 +53,11 @@ export const uiSchema = {
 };
 
 export const formData = {};
+
+const sample = {
+  schema,
+  uiSchema,
+  formData
+}
+
+export default sample
