@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { ErrorSchema, RJSFSchema, UiSchema, ValidatorType, FormContextType } from "@rjsf/utils";
 import { IChangeEvent, FormProps } from "@rjsf/core";
@@ -7,19 +7,19 @@ import isEqualWith from "lodash/isEqualWith";
 
 import DockLayout, {
     DockMode,
-    DropDirection,
     LayoutBase,
-    LayoutData,
     TabBase,
     TabData,
 } from "rc-dock";
 import "rc-dock/dist/rc-dock.css";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import FormBuilderGuiEditor from "./form-builder-gui-editor";
 import Editor from "./editor";
 import ThemeForm from "../theme";
+
+export interface IEditorFormProps extends Omit<FormProps, 'schema' | 'uiSchema' | 'formData' | 'onChange' | 'onSubmit' | 'validator'> {}
+
 
 const toJson = (val: unknown) => JSON.stringify(val ?? {}, null, "\t");
 
@@ -29,6 +29,7 @@ interface EditorsProps {
     setSchema: React.Dispatch<React.SetStateAction<RJSFSchema>>;
     uiSchema: UiSchema;
     setUiSchema: React.Dispatch<React.SetStateAction<UiSchema>>;
+    otherFormProps?: IEditorFormProps;
     formData: unknown;
     setFormData: React.Dispatch<React.SetStateAction<unknown>>;
     validator: ValidatorType;
@@ -64,6 +65,7 @@ export default function Editors({
     onFormDataChange,
     onFormDataSubmit,
     onTemplateSave,
+    otherFormProps = {}
 }: EditorsProps) {
     const _onTemplateSave = () => {
         onTemplateSave && onTemplateSave(schema, uiSchema, formData, extraErrors);
@@ -74,6 +76,9 @@ export default function Editors({
     /**
      * FormPreview
      */
+
+
+
     const _onFormDataChange = (form: IChangeEvent<unknown>, id: string | undefined) => {
         onFormDataChange && onFormDataChange(form, id);
     };
@@ -84,6 +89,28 @@ export default function Editors({
     ) => {
         onFormDataSubmit && onFormDataSubmit(form, event);
     };
+    const formProps = {...otherFormProps, 
+        schema   :schema,
+        uiSchema:uiSchema,
+        formData:formData,
+        onChange:_onFormDataChange,
+        onSubmit:_onFormDataSubmit,
+        validator:validator,
+    }
+
+    const FormPreview = () => {
+        return (
+            <ThemeForm
+                {...formProps}
+            />
+        );
+    };
+
+    //-------------------
+    //-------------------
+    /**
+     * FormData
+     */
 
     const FormBuilderGui = () => {
         return (
@@ -98,18 +125,6 @@ export default function Editors({
         );
     };
 
-    const FormPreview = () => {
-        return (
-            <ThemeForm
-                schema={schema}
-                uiSchema={uiSchema}
-                formData={formData}
-                onChange={_onFormDataChange}
-                onSubmit={_onFormDataSubmit}
-                validator={validator}
-            />
-        );
-    };
 
     //-------------------
     //-------------------

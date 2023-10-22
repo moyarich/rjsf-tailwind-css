@@ -10,13 +10,14 @@ import { IChangeEvent } from "@rjsf/core";
 
 import validator from "@rjsf/validator-ajv8";
 
-import Editors from "@/components/form/editor/editors-dock";
-
-
+import Editors, {IEditorFormProps} from "@/components/form/editor/editors-dock";
 
 import { SchemaSelector } from "@/components/schema-selector";
 import customsSamples from "@/schemas"
 import rjsfPlaygroundSamples from "@/schemas/samples"
+import SpecialInput from "@/components/form/custom-components/fields/special-input";
+import S3FileUpload from "@/components/form/custom-components/fields/s3-file-upload";
+import handleUploadFile from "@/app/s3";
 
 const schemasSamples = {
     ...customsSamples,
@@ -72,6 +73,17 @@ const Page: NextPage = () => {
         console.log("-->handleTemplateSave extraErrors-->", extraErrors);
     };
 
+    const otherFormProps : IEditorFormProps = {
+        fields:{
+          
+            '/schemas/specialString': SpecialInput,
+            '/schemas/s3-file-upload': S3FileUpload,
+          },
+          formContext:{
+            handleS3FileUpload: handleUploadFile
+          }
+    }
+
     return (
         <div className="container">
             <SchemaSelector
@@ -94,6 +106,7 @@ const Page: NextPage = () => {
                     onFormDataChange={handleFormDataChange}
                     onFormDataSubmit={handleFormDataSubmit}
                     onTemplateSave={handleTemplateSave}
+                    otherFormProps={otherFormProps}
                 />
             }
         </div>

@@ -17,7 +17,7 @@ import menuSchema from "./menu";
 import randomSchema from "./random";
 import videoSchema from "./video";
 import testingSchema from "./_testing";
-
+import s3FileUploadSchema from "./s3-file-upload";
 
 const defaultSchemaData = {
     Home: homeSchema,
@@ -25,6 +25,7 @@ const defaultSchemaData = {
     Random: randomSchema,
     Video: videoSchema,
     Testing: testingSchema,
+    'S3 File Upload': s3FileUploadSchema
     //'Diseases': diseasesSchema,
 };
 const schemas = {

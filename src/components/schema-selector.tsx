@@ -42,7 +42,7 @@ export const SchemaSelector = ({
                         <SelectTrigger>
                             <SelectValue placeholder="Select Schema" />
                         </SelectTrigger>
-                        <SelectContent>
+                        <SelectContent className="h-60">
                             {Object.keys(schemaData).map((schemaName) => (
                                 <SelectItem key={schemaName} value={schemaName}>
                                     {schemaName}
