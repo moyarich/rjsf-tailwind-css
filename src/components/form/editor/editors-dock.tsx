@@ -228,7 +228,7 @@ export default function Editors({
                     id: "uiSchema",
                     title: "UiSchema",
                     content: (
-                        <div className="relative overflow-auto h-screen p-2 m-2">
+                        <div className="relative overflow-auto h-full p-8 m-2">
                             <UISchemaEditor />
                         </div>
                     ),
@@ -239,7 +239,7 @@ export default function Editors({
                     id: "formData",
                     title: "FormData",
                     content: (
-                        <div className="relative overflow-auto h-screen p-2 m-2">
+                        <div className="relative overflow-auto h-full p-8 m-2">
                             <FormDataEditor />
                         </div>
                     ),
@@ -250,7 +250,7 @@ export default function Editors({
                     id: "formBuilder",
                     title: "Form Builder",
                     content: (
-                        <div className="relative overflow-auto h-screen p-2 m-2">
+                        <div className="relative overflow-auto h-full p-8 m-2">
                             <FormBuilderGui />
                         </div>
                     ),
@@ -262,7 +262,7 @@ export default function Editors({
                     id: "preview",
                     title: "Preview",
                     content: (
-                        <div className="relative overflow-auto h-screen p-2 m-2">
+                        <div className="relative overflow-auto h-full p-8 m-2">
                             <FormPreview />{" "}
                         </div>
                     ),
@@ -273,7 +273,7 @@ export default function Editors({
                     id: "extraErrors",
                     title: "Extra Errors",
                     content: (
-                        <div className="relative overflow-auto h-screen p-2 m-2">
+                        <div className="relative overflow-auto h-full p-8 m-2">
                             <ExtraErrorsEditorEditor />
                         </div>
                     ),
@@ -284,7 +284,7 @@ export default function Editors({
                     id: "schema",
                     title: "Schema",
                     content: (
-                        <div className="relative overflow-auto h-screen p-2 m-2">
+                        <div className="relative overflow-auto h-full p-8 m-2">
                             <SchemaEditor />
                         </div>
                     ),
