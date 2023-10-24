@@ -62,14 +62,14 @@ export default function Editor({
           {icon}
           <span className={cls}>{title}</span>
         </div>
-        <div className="action flex flex-1 items-center justify-end">
+       {onSave && ( <div className="action flex flex-1 items-center justify-end">
           <button
             className="bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 py-2 rounded-md px-8"
             onClick={onCodeSave}
           >
             Save
           </button>
-        </div>
+        </div>)}
       </div>
 
       <MonacoEditor
