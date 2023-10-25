@@ -96,7 +96,7 @@ export default function BaseInputTemplate<
         placeholder={placeholder}
         style={INPUT_STYLE}
         list={schema.examples ? examplesId<T>(id) : undefined}
-        value={value as string}
+        value={value ?? ''}
         aria-describedby={ariaDescribedByIds<T>(id, !!schema.examples)}
       />
     );
