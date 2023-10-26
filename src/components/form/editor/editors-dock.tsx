@@ -98,71 +98,7 @@ export default function Editors({
         validator:validator,
     }
 
-    const FormPreview = () => {
-        return (
-            <ThemeForm
-                {...formProps}
-            />
-        );
-    };
 
-    //-------------------
-    //-------------------
-    /**
-     * FormData
-     */
-
-    const FormBuilderGui = () => {
-        return (
-            <FormBuilderGuiEditor
-                schema={toJson(schema)}
-                uiSchema={toJson(uiSchema)}
-                onSave={(newSchema: string, newUiSchema: string) => {
-                    setSchema(JSON.parse(newSchema));
-                    setUiSchema(JSON.parse(newUiSchema));
-                }}
-            />
-        );
-    };
-
-
-    //-------------------
-    //-------------------
-    /**
-     * Schema
-     */
-
-    const SchemaEditor = () => {
-        return (
-            <Editor
-                title="JSONSchema"
-                code={toJson(schema)}
-                onSave={(code: string) => {
-                    const codeObject = JSON.parse(code);
-                    setSchema(codeObject);
-                }}
-            />
-        );
-    };
-
-    //-------------------
-    //-------------------
-    /**
-     * UI Schema
-     */
-
-    const UISchemaEditor = () => {
-        return (
-            <Editor
-                title="UISchema"
-                code={toJson(uiSchema)}
-                onSave={(code: string) => {
-                    const codeObject = JSON.parse(code);
-                    setUiSchema(codeObject);
-                }}
-            />
-        );
-    };
 
     //-------------------
     //-------------------
@@ -181,18 +117,7 @@ export default function Editors({
         }
     };
 
-    const FormDataEditor = () => {
-        return (
-            <Editor
-                title="formData"
-                code={toJson(formData)}
-                onSave={(code: string) => {
-                    const codeObject = JSON.parse(code);
-                    onFormDataEdited(codeObject);
-                }}
-            />
-        );
-    };
+
 
     //-------------------
     //-------------------
@@ -228,8 +153,15 @@ export default function Editors({
                     id: "uiSchema",
                     title: "UiSchema",
                     content: (
-                        <div className="relative overflow-auto h-full p-8 m-2">
-                            <UISchemaEditor />
+                        <div className="relative h-full p-8 m-2">
+                                     <Editor
+                title="UISchema"
+                code={toJson(uiSchema)}
+                onSave={(code: string) => {
+                    const codeObject = JSON.parse(code);
+                    setUiSchema(codeObject);
+                }}
+            />
                         </div>
                     ),
                 };
@@ -239,8 +171,15 @@ export default function Editors({
                     id: "formData",
                     title: "FormData",
                     content: (
-                        <div className="relative overflow-auto h-full p-8 m-2">
-                            <FormDataEditor />
+                        <div className="relative h-full p-8 m-2">
+                                     <Editor
+                title="formData"
+                code={toJson(formData)}
+                onSave={(code: string) => {
+                    const codeObject = JSON.parse(code);
+                    onFormDataEdited(codeObject);
+                }}
+            />
                         </div>
                     ),
                 };
@@ -249,9 +188,17 @@ export default function Editors({
                 tab = {
                     id: "formBuilder",
                     title: "Form Builder",
+                    
                     content: (
                         <div className="relative overflow-auto h-full p-8 m-2">
-                            <FormBuilderGui />
+                                   <FormBuilderGuiEditor
+                schema={toJson(schema)}
+                uiSchema={toJson(uiSchema)}
+                onSave={(newSchema: string, newUiSchema: string) => {
+                    setSchema(JSON.parse(newSchema));
+                    setUiSchema(JSON.parse(newUiSchema));
+                }}
+            />
                         </div>
                     ),
                 };
@@ -263,7 +210,9 @@ export default function Editors({
                     title: "Preview",
                     content: (
                         <div className="relative overflow-auto h-full p-8 m-2">
-                            <FormPreview />{" "}
+                            <ThemeForm
+                {...formProps}
+            />
                         </div>
                     ),
                 };
@@ -273,7 +222,7 @@ export default function Editors({
                     id: "extraErrors",
                     title: "Extra Errors",
                     content: (
-                        <div className="relative overflow-auto h-full p-8 m-2">
+                        <div className="relative h-full p-8 m-2">
                             <ExtraErrorsEditorEditor />
                         </div>
                     ),
@@ -284,8 +233,15 @@ export default function Editors({
                     id: "schema",
                     title: "Schema",
                     content: (
-                        <div className="relative overflow-auto h-full p-8 m-2">
-                            <SchemaEditor />
+                        <div className="relative h-full p-8 m-2">
+                                    <Editor
+                title="JSONSchema"
+                code={toJson(schema)}
+                onSave={(code: string) => {
+                    const codeObject = JSON.parse(code);
+                    setSchema(codeObject);
+                }}
+            />
                         </div>
                     ),
                 };

@@ -19,6 +19,9 @@ npx shadcn-ui@latest add tabs
 @radix-ui/react-select
 @radix-ui/react-tabs
 
+npm install @types/prettier
+npm install prettier
+
 ## uses tailwind
 
 clsx

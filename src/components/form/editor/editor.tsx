@@ -3,6 +3,17 @@ import MonacoEditor from '@monaco-editor/react';
 
 import { CheckIcon, TrashIcon } from '@radix-ui/react-icons';
 
+
+
+import prettier from "prettier/standalone";
+import typescriptParser from "prettier/parser-typescript";
+
+
+
+
+
+
+
 export type EditorProps = {
   title: string;
   code: string;
@@ -23,6 +34,21 @@ export default function Editor({
   const [valid, setValid] = useState(true);
 
   const [updatedCode, setUpdatedCode] = useState<string>(code ?? '');
+
+  function handleEditorWillMount(monaco) {
+    monaco.languages.registerDocumentFormattingEditProvider("typescript", {
+      displayName: "Prettier",
+      provideDocumentFormattingEdits(model, options, token) {
+        const prettyVal = prettier.format(model.getValue(), {
+          parser: "typescript",
+          plugins: [typescriptParser],
+        });
+    
+        return [{ range: model.getFullModelRange(), text: prettyVal }];
+      },
+    });
+  }
+  
 
   const onCodeSave = () => {
     onSave && onSave(updatedCode);
@@ -46,11 +72,28 @@ export default function Editor({
   );
 
   const monacoEditorOptions = {
+    formatOnType: true,
+    tabSize: 2,
+    margin: { top: -3},
+    padding: { top: 6, bottom: 10 },
+    lineNumbersMinChars: 3,
     minimap: {
-      enabled: false,
+      enabled: true,
     },
+    scrollbar: {
+      useShadows: false,
+      vertical: 'auto'  as const
+    },
+    mouseWheelZoom: true,
     automaticLayout: true,
+    //-----------
+    renderLineHighlightOnlyWhenFocus: true,
+        overviewRulerBorder: false,
+        hideCursorInOverviewRuler: true,
   };
+ 
+
+
 
   const icon = valid ? <CheckIcon /> : <TrashIcon />;
   const cls = valid ? 'text-green-500' : 'text-red-500';
@@ -80,6 +123,7 @@ export default function Editor({
         onChange={onCodeChange}
         height={height}
         options={monacoEditorOptions}
+        beforeMount={handleEditorWillMount}
       />
     </div>
   );
