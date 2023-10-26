@@ -1,7 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useImperativeHandle, forwardRef } from "react";
 
-import { ErrorSchema, RJSFSchema, UiSchema, ValidatorType, FormContextType } from "@rjsf/utils";
-import { IChangeEvent, FormProps } from "@rjsf/core";
+import {
+    ErrorSchema,
+    RJSFSchema,
+    UiSchema,
+    ValidatorType,
+    FormContextType,
+    PROPERTIES_KEY,
+} from "@rjsf/utils";
+import Form, { IChangeEvent, FormProps } from "@rjsf/core";
 
 import isEqualWith from "lodash/isEqualWith";
 
@@ -71,49 +78,6 @@ export default function Editors({
     //-------------------
     //-------------------
     /**
-     * FormPreview
-     */
-
-    const _onFormDataChange = (form: IChangeEvent<unknown>, id: string | undefined) => {
-        onFormDataChange && onFormDataChange(form, id);
-    };
-
-    const _onFormDataSubmit = (
-        form: IChangeEvent<unknown, RJSFSchema, FormContextType>,
-        event: React.FormEvent<unknown>,
-    ) => {
-        onFormDataSubmit && onFormDataSubmit(form, event);
-    };
-    const formProps = {
-        ...otherFormProps,
-        schema: schema,
-        uiSchema: uiSchema,
-        formData: formData,
-        onChange: _onFormDataChange,
-        onSubmit: _onFormDataSubmit,
-        validator: validator,
-    };
-
-    //-------------------
-    //-------------------
-    /**
-     * FormData
-     */
-
-    const onFormDataEdited = (newFormData: any) => {
-        if (
-            !isEqualWith(newFormData, formData, (newValue, oldValue) => {
-                // The editor uses JSON.stringify to remove undefined values. So, compare the values and use JSON.stringify to check if the trimmed formData is identical to the untrimmed formData.
-                return JSON.stringify(oldValue) === JSON.stringify(newValue);
-            })
-        ) {
-            setFormData(newFormData);
-        }
-    };
-
-    //-------------------
-    //-------------------
-    /**
      * Extra Errors
      */
 
@@ -135,6 +99,8 @@ export default function Editors({
             />
         );
     };
+
+    const schemaFormRef = useRef();
 
     const loadTab = ({ id }: TabBase): TabData => {
         let tab = {} as TabData;
@@ -168,8 +134,22 @@ export default function Editors({
                                 title="formData"
                                 code={toJson(formData)}
                                 onChange={(code: string) => {
-                                    const codeObject = JSON.parse(code);
-                                    onFormDataEdited(codeObject);
+                                    const newFormData = JSON.parse(code);
+                                    if (
+                                        !isEqualWith(
+                                            newFormData,
+                                            formData,
+                                            (newValue, oldValue) => {
+                                                // The editor uses JSON.stringify to remove undefined values. So, compare the values and use JSON.stringify to check if the trimmed formData is identical to the untrimmed formData.
+                                                return (
+                                                    JSON.stringify(oldValue) ===
+                                                    JSON.stringify(newValue)
+                                                );
+                                            },
+                                        )
+                                    ) {
+                                        setFormData(newFormData);
+                                    }
                                 }}
                             />
                         </div>
@@ -180,15 +160,20 @@ export default function Editors({
                 tab = {
                     id: "formBuilder",
                     title: "Form Builder",
-
                     content: (
                         <div className="relative overflow-auto h-full p-8 m-2">
                             <FormBuilderGuiEditor
                                 schema={toJson(schema)}
                                 uiSchema={toJson(uiSchema)}
                                 onChange={(newSchema: string, newUiSchema: string) => {
-                                    setSchema(JSON.parse(newSchema));
-                                    setUiSchema(JSON.parse(newUiSchema));
+                                    const schemaObj = JSON.parse(newSchema);
+                                    const uiSchemaObj = JSON.parse(newUiSchema);
+
+                                    setSchema(schemaObj);
+                                    setUiSchema(uiSchemaObj);
+
+                                    schemaFormRef?.current?.setSchema(schemaObj);
+                                    schemaFormRef?.current?.setUiSchema(uiSchemaObj);
                                 }}
                             />
                         </div>
@@ -202,7 +187,16 @@ export default function Editors({
                     title: "Preview",
                     content: (
                         <div className="relative overflow-auto h-full p-8 m-2">
-                            <ThemeForm {...formProps} />
+                            <SchemaForm
+                                ref={schemaFormRef}
+                                schema={schema}
+                                uiSchema={uiSchema}
+                                formData={formData}
+                                validator={validator}
+                                onFormDataChange={onFormDataChange}
+                                onFormDataSubmit={onFormDataSubmit}
+                                {...otherFormProps}
+                            />
                         </div>
                     ),
                 };
@@ -230,6 +224,8 @@ export default function Editors({
                                 onChange={(code: string) => {
                                     const codeObject = JSON.parse(code);
                                     setSchema(codeObject);
+
+                                    schemaFormRef?.current?.setSchema(codeObject);
                                 }}
                             />
                         </div>
@@ -273,15 +269,14 @@ export default function Editors({
 
     const [layout, setLayout] = useState<LayoutBase>(defaultLayout);
 
+    // This ref will always be defined
+    // eslint-disable-next-line no-type-assertion/no-type-assertion
+    const dockLayoutRef = useRef<DockLayout>(null!);
     useEffect(() => {
-        dockLayoutRef.loadLayout(layout as LayoutBase);
-    });
+        console.log("useEffect: load Dock Layout---->");
+        setLayout(defaultLayout);
+    }, []);
 
-    let dockLayoutRef: DockLayout;
-
-    const getRef = (r: DockLayout) => {
-        dockLayoutRef = r;
-    };
     return (
         <div className="mb-4">
             <div className="header flex pt-2 items-center">
@@ -301,7 +296,7 @@ export default function Editors({
             </div>
             <div className="relative h-screen">
                 <DockLayout
-                    ref={getRef}
+                    ref={dockLayoutRef}
                     layout={layout}
                     loadTab={loadTab}
                     dropMode="edge"
@@ -314,6 +309,8 @@ export default function Editors({
                         marginBottom: "10px",
                     }}
                     onLayoutChange={(newLayout) => {
+                        console.log("Dock layout onLayoutChange: load Dock Layout---->");
+                        dockLayoutRef.current.loadLayout(newLayout as LayoutBase);
                         setLayout(newLayout);
                     }}
                 />
@@ -321,3 +318,62 @@ export default function Editors({
         </div>
     );
 }
+
+/**
+ * uses forwardRef to change SchemaForm without rerending its parent (the rc-dock container)
+ */
+interface ISchemaFormProps {
+    schema: RJSFSchema;
+    uiSchema: UiSchema;
+    otherFormProps?: IEditorFormProps;
+    formData: unknown;
+    validator: ValidatorType;
+    onFormDataChange?: (
+        form: IChangeEvent<unknown, RJSFSchema, FormContextType>,
+        id?: string,
+    ) => void;
+    onFormDataSubmit?: (
+        form: IChangeEvent<unknown, RJSFSchema, FormContextType>,
+        event: React.FormEvent<unknown>,
+    ) => void;
+}
+
+export const SchemaForm = forwardRef((props: ISchemaFormProps, ref) => {
+    const {
+        schema,
+        uiSchema,
+        formData,
+        validator,
+        onFormDataChange,
+        onFormDataSubmit,
+        otherFormProps,
+    } = props;
+
+    const [_schema, _setSchema] = useState(schema);
+    const [_uiSchema, _setUiSchema] = useState(uiSchema);
+    const [_formData, _setFormData] = useState(formData);
+
+    useImperativeHandle(
+        ref,
+        () => {
+            return {
+                setSchema: _setSchema,
+                setUiSchema: _setUiSchema,
+                setFormData: _setFormData,
+            };
+        },
+        [_schema, _setSchema, _uiSchema, _setUiSchema],
+    );
+
+    const formProps = {
+        ...otherFormProps,
+        schema: _schema,
+        uiSchema: _uiSchema,
+        formData: _formData,
+        onChange: onFormDataChange,
+        onSubmit: onFormDataSubmit,
+        validator: validator,
+    };
+
+    return <ThemeForm {...formProps} />;
+});
