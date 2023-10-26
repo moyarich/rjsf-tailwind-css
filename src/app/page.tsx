@@ -10,20 +10,19 @@ import { IChangeEvent } from "@rjsf/core";
 
 import validator from "@rjsf/validator-ajv8";
 
-import Editors, {IEditorFormProps} from "@/components/form/editor/editors-dock";
+import Editors, { IEditorFormProps } from "@/components/form/editor/editors-dock";
 
 import { SchemaSelector } from "@/components/schema-selector";
-import customsSamples from "@/schemas"
-import rjsfPlaygroundSamples from "@/schemas/samples"
+import customsSamples from "@/schemas";
+import rjsfPlaygroundSamples from "@/schemas/samples";
 import SpecialInput from "@/components/form/custom-components/fields/special-input";
 import S3FileUpload from "@/components/form/custom-components/fields/s3-file-upload";
 import handleUploadFile from "@/app/s3";
 
 const schemasSamples = {
     ...customsSamples,
-    ...rjsfPlaygroundSamples
-
-}
+    ...rjsfPlaygroundSamples,
+};
 
 const Page: NextPage = () => {
     const params = useParams();
@@ -53,7 +52,9 @@ const Page: NextPage = () => {
     }, [selectedSchema]);
 
     const handleFormDataChange = (form: IChangeEvent<unknown>, id?: string) => {
-        console.log(id, form.formData);
+        console.log("form id: ", id);
+        console.dir(form.formData, { depth: null });
+        setFormData(form.formData);
     };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -65,7 +66,7 @@ const Page: NextPage = () => {
         schema: RJSFSchema,
         uiSchema?: UiSchema,
         formData?: unknown,
-        extraErrors?: ErrorSchema
+        extraErrors?: ErrorSchema,
     ) => {
         console.log("-->handleTemplateSave schema-->", schema);
         console.log("-->handleTemplateSave uiSchema-->", uiSchema);
@@ -73,16 +74,15 @@ const Page: NextPage = () => {
         console.log("-->handleTemplateSave extraErrors-->", extraErrors);
     };
 
-    const otherFormProps : IEditorFormProps = {
-        fields:{
-          
-            '/schemas/specialString': SpecialInput,
-            '/schemas/s3-file-upload': S3FileUpload,
-          },
-          formContext:{
-            handleS3FileUpload: handleUploadFile
-          }
-    }
+    const otherFormProps: IEditorFormProps = {
+        fields: {
+            "/schemas/specialString": SpecialInput,
+            "/schemas/s3-file-upload": S3FileUpload,
+        },
+        formContext: {
+            handleS3FileUpload: handleUploadFile,
+        },
+    };
 
     return (
         <div className="container">

@@ -5,21 +5,18 @@ import { IChangeEvent, FormProps } from "@rjsf/core";
 
 import isEqualWith from "lodash/isEqualWith";
 
-import DockLayout, {
-    DockMode,
-    LayoutBase,
-    TabBase,
-    TabData,
-} from "rc-dock";
+import DockLayout, { DockMode, LayoutBase, TabBase, TabData } from "rc-dock";
 import "rc-dock/dist/rc-dock.css";
-
 
 import FormBuilderGuiEditor from "./form-builder-gui-editor";
 import Editor from "./editor";
 import ThemeForm from "../theme";
 
-export interface IEditorFormProps extends Omit<FormProps, 'schema' | 'uiSchema' | 'formData' | 'onChange' | 'onSubmit' | 'validator'> {}
-
+export interface IEditorFormProps
+    extends Omit<
+        FormProps,
+        "schema" | "uiSchema" | "formData" | "onChange" | "onSubmit" | "validator"
+    > {}
 
 const toJson = (val: unknown) => JSON.stringify(val ?? {}, null, "\t");
 
@@ -37,17 +34,17 @@ interface EditorsProps {
     setExtraErrors?: React.Dispatch<React.SetStateAction<ErrorSchema | undefined>>;
     onFormDataChange?: (
         form: IChangeEvent<unknown, RJSFSchema, FormContextType>,
-        id?: string
+        id?: string,
     ) => void;
     onFormDataSubmit?: (
         form: IChangeEvent<unknown, RJSFSchema, FormContextType>,
-        event: React.FormEvent<unknown>
+        event: React.FormEvent<unknown>,
     ) => void;
     onTemplateSave?: (
         schema: RJSFSchema,
         uiSchema?: UiSchema,
         formData?: unknown,
-        extraErrors?: ErrorSchema
+        extraErrors?: ErrorSchema,
     ) => void;
 }
 
@@ -65,7 +62,7 @@ export default function Editors({
     onFormDataChange,
     onFormDataSubmit,
     onTemplateSave,
-    otherFormProps = {}
+    otherFormProps = {},
 }: EditorsProps) {
     const _onTemplateSave = () => {
         onTemplateSave && onTemplateSave(schema, uiSchema, formData, extraErrors);
@@ -77,28 +74,25 @@ export default function Editors({
      * FormPreview
      */
 
-
-
     const _onFormDataChange = (form: IChangeEvent<unknown>, id: string | undefined) => {
         onFormDataChange && onFormDataChange(form, id);
     };
 
     const _onFormDataSubmit = (
         form: IChangeEvent<unknown, RJSFSchema, FormContextType>,
-        event: React.FormEvent<unknown>
+        event: React.FormEvent<unknown>,
     ) => {
         onFormDataSubmit && onFormDataSubmit(form, event);
     };
-    const formProps = {...otherFormProps, 
-        schema   :schema,
-        uiSchema:uiSchema,
-        formData:formData,
-        onChange:_onFormDataChange,
-        onSubmit:_onFormDataSubmit,
-        validator:validator,
-    }
-
-
+    const formProps = {
+        ...otherFormProps,
+        schema: schema,
+        uiSchema: uiSchema,
+        formData: formData,
+        onChange: _onFormDataChange,
+        onSubmit: _onFormDataSubmit,
+        validator: validator,
+    };
 
     //-------------------
     //-------------------
@@ -117,8 +111,6 @@ export default function Editors({
         }
     };
 
-
-
     //-------------------
     //-------------------
     /**
@@ -136,7 +128,7 @@ export default function Editors({
             <Editor
                 title="extraErrors"
                 code={toJson(extraErrors || {})}
-                onSave={(code: string) => {
+                onChange={(code: string) => {
                     const codeObject = JSON.parse(code);
                     onExtraErrorsEdited(codeObject);
                 }}
@@ -154,14 +146,14 @@ export default function Editors({
                     title: "UiSchema",
                     content: (
                         <div className="relative h-full p-8 m-2">
-                                     <Editor
-                title="UISchema"
-                code={toJson(uiSchema)}
-                onSave={(code: string) => {
-                    const codeObject = JSON.parse(code);
-                    setUiSchema(codeObject);
-                }}
-            />
+                            <Editor
+                                title="UISchema"
+                                code={toJson(uiSchema)}
+                                onChange={(code: string) => {
+                                    const codeObject = JSON.parse(code);
+                                    setUiSchema(codeObject);
+                                }}
+                            />
                         </div>
                     ),
                 };
@@ -172,14 +164,14 @@ export default function Editors({
                     title: "FormData",
                     content: (
                         <div className="relative h-full p-8 m-2">
-                                     <Editor
-                title="formData"
-                code={toJson(formData)}
-                onSave={(code: string) => {
-                    const codeObject = JSON.parse(code);
-                    onFormDataEdited(codeObject);
-                }}
-            />
+                            <Editor
+                                title="formData"
+                                code={toJson(formData)}
+                                onChange={(code: string) => {
+                                    const codeObject = JSON.parse(code);
+                                    onFormDataEdited(codeObject);
+                                }}
+                            />
                         </div>
                     ),
                 };
@@ -188,17 +180,17 @@ export default function Editors({
                 tab = {
                     id: "formBuilder",
                     title: "Form Builder",
-                    
+
                     content: (
                         <div className="relative overflow-auto h-full p-8 m-2">
-                                   <FormBuilderGuiEditor
-                schema={toJson(schema)}
-                uiSchema={toJson(uiSchema)}
-                onSave={(newSchema: string, newUiSchema: string) => {
-                    setSchema(JSON.parse(newSchema));
-                    setUiSchema(JSON.parse(newUiSchema));
-                }}
-            />
+                            <FormBuilderGuiEditor
+                                schema={toJson(schema)}
+                                uiSchema={toJson(uiSchema)}
+                                onChange={(newSchema: string, newUiSchema: string) => {
+                                    setSchema(JSON.parse(newSchema));
+                                    setUiSchema(JSON.parse(newUiSchema));
+                                }}
+                            />
                         </div>
                     ),
                 };
@@ -210,9 +202,7 @@ export default function Editors({
                     title: "Preview",
                     content: (
                         <div className="relative overflow-auto h-full p-8 m-2">
-                            <ThemeForm
-                {...formProps}
-            />
+                            <ThemeForm {...formProps} />
                         </div>
                     ),
                 };
@@ -234,14 +224,14 @@ export default function Editors({
                     title: "Schema",
                     content: (
                         <div className="relative h-full p-8 m-2">
-                                    <Editor
-                title="JSONSchema"
-                code={toJson(schema)}
-                onSave={(code: string) => {
-                    const codeObject = JSON.parse(code);
-                    setSchema(codeObject);
-                }}
-            />
+                            <Editor
+                                title="JSONSchema"
+                                code={toJson(schema)}
+                                onChange={(code: string) => {
+                                    const codeObject = JSON.parse(code);
+                                    setSchema(codeObject);
+                                }}
+                            />
                         </div>
                     ),
                 };
