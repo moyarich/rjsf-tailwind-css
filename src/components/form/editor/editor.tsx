@@ -13,6 +13,7 @@ export type EditorProps = {
     onSave?: (code: string) => void;
     height?: string | number;
     className?: string;
+    defaultValue?: string;
 };
 
 export default function Editor({
@@ -22,6 +23,7 @@ export default function Editor({
     onSave,
     height = "100%",
     className,
+    defaultValue = "",
 }: EditorProps) {
     const [valid, setValid] = useState(true);
 
@@ -48,6 +50,7 @@ export default function Editor({
     const onCodeChange = useCallback(
         (code: string | undefined) => {
             if (!code) {
+                onChange && onChange(defaultValue);
                 return;
             }
 
