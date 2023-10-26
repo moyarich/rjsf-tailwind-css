@@ -100,7 +100,7 @@ export default function Editors({
         );
     };
 
-    const schemaFormRef = useRef();
+    const schemaFormRef = useRef<ISchemaFormRef>();
 
     const loadTab = ({ id }: TabBase): TabData => {
         let tab = {} as TabData;
@@ -322,7 +322,7 @@ export default function Editors({
 /**
  * uses forwardRef to change SchemaForm without rerending its parent (the rc-dock container)
  */
-interface ISchemaFormProps {
+export interface ISchemaFormProps {
     schema: RJSFSchema;
     uiSchema: UiSchema;
     otherFormProps?: IEditorFormProps;
@@ -337,7 +337,11 @@ interface ISchemaFormProps {
         event: React.FormEvent<unknown>,
     ) => void;
 }
-
+export interface ISchemaFormRef {
+    setSchema: React.Dispatch<React.SetStateAction<RJSFSchema>>;
+    setUiSchema: React.Dispatch<React.SetStateAction<UiSchema>>;
+    setFormData: React.Dispatch<React.SetStateAction<unknown>>;
+}
 export const SchemaForm = forwardRef((props: ISchemaFormProps, ref) => {
     const {
         schema,
@@ -355,7 +359,7 @@ export const SchemaForm = forwardRef((props: ISchemaFormProps, ref) => {
 
     useImperativeHandle(
         ref,
-        () => {
+        (): ISchemaFormRef => {
             return {
                 setSchema: _setSchema,
                 setUiSchema: _setUiSchema,
