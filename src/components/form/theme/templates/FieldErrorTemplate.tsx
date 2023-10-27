@@ -1,0 +1,39 @@
+import {
+    errorId,
+    FieldErrorProps,
+    FormContextType,
+    RJSFSchema,
+    StrictRJSFSchema,
+} from "@rjsf/utils";
+
+/** The `FieldErrorTemplate` component renders the errors local to the particular field
+ *
+ * @param props - The `FieldErrorProps` for the errors being rendered
+ */
+export default function FieldErrorTemplate<
+    T = any,
+    S extends StrictRJSFSchema = RJSFSchema,
+    F extends FormContextType = any,
+>(props: FieldErrorProps<T, S, F>) {
+    const { errors = [], idSchema } = props;
+    if (errors.length === 0) {
+        return null;
+    }
+    const id = errorId<T>(idSchema);
+
+    return (
+        <div>
+            <ul id={id} className="error-detail">
+                {errors
+                    .filter((elem) => !!elem)
+                    .map((error, index: number) => {
+                        return (
+                            <li className="text-red-600 text-[0.8rem]" key={index}>
+                                {error}
+                            </li>
+                        );
+                    })}
+            </ul>
+        </div>
+    );
+}

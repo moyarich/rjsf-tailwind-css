@@ -15,6 +15,7 @@ import FieldTemplate from "./FieldTemplate";
 import { StrictRJSFSchema, TemplatesType } from "@rjsf/utils";
 import WrapIfAdditionalTemplate from "./WrapIfAdditionalTemplate";
 import ErrorList from "./ErrorList";
+import FieldErrorTemplate from "./FieldErrorTemplate";
 
 export const templates: Partial<TemplatesType<any, StrictRJSFSchema, any>> = {
     BaseInputTemplate,
@@ -26,6 +27,7 @@ export const templates: Partial<TemplatesType<any, StrictRJSFSchema, any>> = {
     FieldTemplate,
     WrapIfAdditionalTemplate,
     ErrorListTemplate: ErrorList,
+    FieldErrorTemplate,
     ButtonTemplates: {
         AddButton,
         RemoveButton,
