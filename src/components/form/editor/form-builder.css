@@ -151,3 +151,154 @@
     color: hsl(var(--primary-foreground));
     background-color: var(--accent);
 }
+.schema-form-builder .d-flex {
+    display: flex !important;
+}
+
+.schema-form-builder .m-2 {
+    margin: 0.5rem;
+}
+
+.schema-form-builder .alert {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+.schema-form-builder .alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+.schema-form-builder .fade {
+    opacity: 0;
+    transition: opacity 0.15s linear;
+}
+
+.schema-form-builder .show {
+    opacity: 1;
+}
+
+.schema-form-builder [role="button"] {
+    cursor: pointer;
+}
+
+.schema-form-builder .form-control {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition:
+        border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
+}
+
+.schema-form-builder .invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+
+.schema-form-builder .collapse:not(.show) {
+    display: none;
+}
+
+.schema-form-builder .popover {
+    z-index: 1070;
+    display: block;
+    max-width: 276px;
+    color: hsl(var(--card-foreground));
+}
+
+.schema-form-builder .popover-header {
+    padding: 4px;
+    margin-bottom: 0;
+    color: var(--popover-foreground);
+    background-color: hsl(var(--card));
+    border-bottom: 1px solid var(--border);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.schema-form-builder .popover-body {
+    background-color: hsl(var(--card));
+    border-radius: 6px;
+    padding: 6px;
+}
+
+.schema-form-builder .btn {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    user-select: none;
+    border: 1px solid;
+    font-weight: normal;
+    white-space: nowrap;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    line-height: normal;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.schema-form-builder .btn-primary {
+    color: hsl(var(--primary-foreground));
+    background-color: hsl(var(--primary));
+}
+
+.schema-form-builder .btn-primary:hover {
+    color: hsl(var(--primary-foreground));
+    background-color: hsl(var(--primary) / 0.7);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+        var(--tw-shadow);
+}
+
+.schema-form-builder .btn-primary:active {
+    color: hsl(var(--primary-foreground));
+    background-color: hsl(var(--primary));
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+        var(--tw-shadow);
+}
+
+.schema-form-builder .btn-primary:disabled {
+    opacity: 0.5;
+}
+
+.schema-form-builder .btn-secondary {
+    color: hsl(var(--secondary-foreground));
+    background-color: hsl(var(--secondary));
+}
+
+.schema-form-builder .btn-secondary:hover {
+    color: hsl(var(--secondary-foreground));
+    background-color: hsl(var(--secondary) / 0.7);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+        var(--tw-shadow);
+}
+
+.schema-form-builder .btn-secondary:active {
+    color: hsl(var(--secondary-foreground));
+    background-color: hsl(var(--secondary));
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+        var(--tw-shadow);
+}
+
+.schema-form-builder .btn-secondary:disabled {
+    opacity: 0.5;
+}
+
+.schema-form-builder .tootip {
+    color: hsl(var(--primary-foreground));
+    background-color: var(--accent);
+}
