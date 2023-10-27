@@ -1,0 +1,153 @@
+/* Bootstrap CSS */
+
+.d-flex {
+    display: flex !important;
+}
+
+.m-2 {
+    margin: 0.5rem;
+}
+
+.alert {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+}
+
+.alert-warning {
+    color: #856404;
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+}
+
+.fade {
+    opacity: 0;
+    transition: opacity 0.15s linear;
+}
+
+.show {
+    opacity: 1;
+}
+
+[role="button"] {
+    cursor: pointer;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition:
+        border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
+}
+
+.invalid-feedback {
+    display: block;
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+
+.collapse:not(.show) {
+    display: none;
+}
+
+.popover {
+    z-index: 1070;
+    display: block;
+    max-width: 276px;
+    color: hsl(var(--card-foreground));
+}
+
+.popover-header {
+    padding: 4px;
+    margin-bottom: 0;
+    color: var(--popover-foreground);
+    background-color: hsl(var(--card));
+    border-bottom: 1px solid var(--border);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
+
+.popover-body {
+    background-color: hsl(var(--card));
+    border-radius: 6px;
+    padding: 6px;
+}
+
+.btn {
+    display: inline-block;
+    vertical-align: middle;
+    text-align: center;
+    user-select: none;
+    border: 1px solid;
+    font-weight: normal;
+    white-space: nowrap;
+    border-radius: 0.25rem;
+    padding: 0.25rem 0.75rem;
+    line-height: normal;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary {
+    color: hsl(var(--primary-foreground));
+    background-color: hsl(var(--primary));
+}
+
+.btn-primary:hover {
+    color: hsl(var(--primary-foreground));
+    background-color: hsl(var(--primary) / 0.7);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+        var(--tw-shadow);
+}
+
+.btn-primary:active {
+    color: hsl(var(--primary-foreground));
+    background-color: hsl(var(--primary));
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+        var(--tw-shadow);
+}
+
+.btn-primary:disabled {
+    opacity: 0.5;
+}
+
+.btn-secondary {
+    color: hsl(var(--secondary-foreground));
+    background-color: hsl(var(--secondary));
+}
+
+.btn-secondary:hover {
+    color: hsl(var(--secondary-foreground));
+    background-color: hsl(var(--secondary) / 0.7);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+        var(--tw-shadow);
+}
+
+.btn-secondary:active {
+    color: hsl(var(--secondary-foreground));
+    background-color: hsl(var(--secondary));
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+        var(--tw-shadow);
+}
+
+.btn-secondary:disabled {
+    opacity: 0.5;
+}
+
+.tootip {
+    color: hsl(var(--primary-foreground));
+    background-color: var(--accent);
+}

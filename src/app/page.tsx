@@ -1,5 +1,4 @@
 "use client";
-import "bootstrap/dist/css/bootstrap.min.css";
 
 import { useState, useEffect, useRef } from "react";
 import { NextPage } from "next";

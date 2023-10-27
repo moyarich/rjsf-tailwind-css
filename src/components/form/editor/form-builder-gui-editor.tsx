@@ -1,5 +1,7 @@
 import { useState } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+//import "bootstrap/dist/css/bootstrap.min.css";
+
+import "./form-builder.css";
 
 import { FormBuilder } from "@ginkgo-bioworks/react-json-schema-form-builder";
 

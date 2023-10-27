@@ -306,7 +306,7 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                         )}
                         <div className="action flex flex-1 items-center justify-end">
                             <button
-                                className="bg-primary text-primary-foreground shadow hover:bg-primary/90 py-2 rounded-tl-md rounded-tr-md px-8"
+                                className="bg-primary text-primary-foreground shadow hover:bg-primary/90 active:bg-primary/70 py-2 rounded-tl-md rounded-tr-md px-8"
                                 onClick={_onTemplateSave}
                             >
                                 Save Template
