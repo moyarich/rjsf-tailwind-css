@@ -1,7 +1,7 @@
 "use client";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { NextPage } from "next";
 import { useParams } from "next/navigation";
 
@@ -34,6 +34,7 @@ const Page: NextPage = () => {
     const [formData, setFormData] = useState<any>({});
 
     const [extraErrors, setExtraErrors] = useState<ErrorSchema | undefined>();
+    const editorsRef = useRef<unknown>();
 
     function handleSchemaSelectChange(selected: string): void {
         setSelectedSchema(selected);
@@ -49,6 +50,7 @@ const Page: NextPage = () => {
         setSchema(s as RJSFSchema);
         setUiSchema(uiS as RJSFSchema);
         setFormData(fd as FormData);
+        editorsRef?.current?.resetLayout();
     }, [selectedSchema]);
 
     const handleFormDataChange = (form: IChangeEvent<unknown>, id?: string) => {
@@ -68,10 +70,8 @@ const Page: NextPage = () => {
         formData?: unknown,
         extraErrors?: ErrorSchema,
     ) => {
-        console.log("-->handleTemplateSave schema-->", schema);
-        console.log("-->handleTemplateSave uiSchema-->", uiSchema);
-        console.log("-->handleTemplateSave formData-->", formData);
-        console.log("-->handleTemplateSave extraErrors-->", extraErrors);
+        console.log("-->handleTemplateSave -->");
+        console.dir({ uiSchema, formData, extraErrors }, { depth: null });
     };
 
     const otherFormProps: IEditorFormProps = {
@@ -92,8 +92,9 @@ const Page: NextPage = () => {
                 schemaData={schemasSamples}
             />
 
-            {
+            {selectedSchema && (
                 <Editors
+                    ref={editorsRef}
                     schema={schema}
                     uiSchema={uiSchema}
                     formData={formData}
@@ -108,7 +109,7 @@ const Page: NextPage = () => {
                     onTemplateSave={handleTemplateSave}
                     otherFormProps={otherFormProps}
                 />
-            }
+            )}
         </div>
     );
 };

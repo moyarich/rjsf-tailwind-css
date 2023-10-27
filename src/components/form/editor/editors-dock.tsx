@@ -27,7 +27,7 @@ export interface IEditorFormProps
 
 const toJson = (val: unknown) => JSON.stringify(val ?? {}, null, "\t");
 
-interface EditorsProps {
+export interface EditorsProps {
     editorTitle?: string;
     schema: RJSFSchema;
     setSchema: React.Dispatch<React.SetStateAction<RJSFSchema>>;
@@ -55,22 +55,45 @@ interface EditorsProps {
     ) => void;
 }
 
-export default function Editors({
-    editorTitle,
-    extraErrors,
-    setExtraErrors,
-    setFormData,
-    schema,
-    setSchema,
-    uiSchema,
-    setUiSchema,
-    formData,
-    validator,
-    onFormDataChange,
-    onFormDataSubmit,
-    onTemplateSave,
-    otherFormProps = {},
-}: EditorsProps) {
+const Editors = forwardRef((props: EditorsProps, ref) => {
+    const {
+        editorTitle,
+        extraErrors,
+        setExtraErrors,
+        setFormData,
+        schema,
+        setSchema,
+        uiSchema,
+        setUiSchema,
+        formData,
+        validator,
+        onFormDataChange,
+        onFormDataSubmit,
+        onTemplateSave,
+        otherFormProps = {},
+    } = props;
+
+    const [layout, setLayout] = useState<LayoutBase | undefined>();
+
+    const schemaFormRef = useRef<ISchemaFormRef>();
+
+    // This ref will always be defined
+    // eslint-disable-next-line no-type-assertion/no-type-assertion
+    const dockLayoutRef = useRef<DockLayout>(null!);
+
+    useImperativeHandle(
+        ref,
+        () => {
+            return {
+                resetLayout: () => {
+                    setLayout(defaultLayout);
+                },
+                ...(dockLayoutRef?.current ?? {}),
+            };
+        },
+        [schema, uiSchema, formData],
+    );
+
     const _onTemplateSave = () => {
         onTemplateSave && onTemplateSave(schema, uiSchema, formData, extraErrors);
     };
@@ -99,8 +122,6 @@ export default function Editors({
             />
         );
     };
-
-    const schemaFormRef = useRef<ISchemaFormRef>();
 
     const loadTab = ({ id }: TabBase): TabData => {
         let tab = {} as TabData;
@@ -268,57 +289,58 @@ export default function Editors({
         },
     };
 
-    const [layout, setLayout] = useState<LayoutBase>(defaultLayout);
-
-    // This ref will always be defined
-    // eslint-disable-next-line no-type-assertion/no-type-assertion
-    const dockLayoutRef = useRef<DockLayout>(null!);
     useEffect(() => {
         console.log("useEffect: load Dock Layout---->");
         setLayout(defaultLayout);
     }, []);
 
     return (
-        <div className="mb-4">
-            <div className="header flex pt-2 items-center">
-                {editorTitle && (
-                    <div className="p-2 gap-1 inline-flex items-center">
-                        <span className="text-lg">{editorTitle}</span>
+        <>
+            {layout && (
+                <div className="mb-4">
+                    <div className="header flex pt-2 items-center">
+                        {editorTitle && (
+                            <div className="p-2 gap-1 inline-flex items-center">
+                                <span className="text-lg">{editorTitle}</span>
+                            </div>
+                        )}
+                        <div className="action flex flex-1 items-center justify-end">
+                            <button
+                                className="bg-primary text-primary-foreground shadow hover:bg-primary/90 py-2 rounded-tl-md rounded-tr-md px-8"
+                                onClick={_onTemplateSave}
+                            >
+                                Save Template
+                            </button>
+                        </div>
                     </div>
-                )}
-                <div className="action flex flex-1 items-center justify-end">
-                    <button
-                        className="bg-primary text-primary-foreground shadow hover:bg-primary/90 py-2 rounded-tl-md rounded-tr-md px-8"
-                        onClick={_onTemplateSave}
-                    >
-                        Save Template
-                    </button>
+                    <div className="relative h-screen">
+                        <DockLayout
+                            ref={dockLayoutRef}
+                            layout={layout}
+                            loadTab={loadTab}
+                            dropMode="edge"
+                            style={{
+                                position: "absolute",
+                                left: 0,
+                                top: 0,
+                                right: 0,
+                                bottom: 10,
+                                marginBottom: "10px",
+                            }}
+                            onLayoutChange={(newLayout) => {
+                                console.log("Dock layout onLayoutChange: load Dock Layout---->");
+                                dockLayoutRef.current.loadLayout(newLayout as LayoutBase);
+                                setLayout(newLayout);
+                            }}
+                        />
+                    </div>
                 </div>
-            </div>
-            <div className="relative h-screen">
-                <DockLayout
-                    ref={dockLayoutRef}
-                    layout={layout}
-                    loadTab={loadTab}
-                    dropMode="edge"
-                    style={{
-                        position: "absolute",
-                        left: 0,
-                        top: 0,
-                        right: 0,
-                        bottom: 10,
-                        marginBottom: "10px",
-                    }}
-                    onLayoutChange={(newLayout) => {
-                        console.log("Dock layout onLayoutChange: load Dock Layout---->");
-                        dockLayoutRef.current.loadLayout(newLayout as LayoutBase);
-                        setLayout(newLayout);
-                    }}
-                />
-            </div>
-        </div>
+            )}
+        </>
     );
-}
+});
+
+export default Editors;
 
 /**
  * uses forwardRef to change SchemaForm without rerending its parent (the rc-dock container)
