@@ -18,15 +18,23 @@ export default function ErrorList<
 >({ errors, registry }: ErrorListProps<T, S, F>) {
     const { translateString } = registry;
     return (
-        <div className="rounded-xl border bg-card text-card-foreground shadow">
-            <div className="flex flex-col space-y-1.5 p-6">
-                <h3 className="panel-title">{translateString(TranslatableString.ErrorsLabel)}</h3>
+        <div className="rounded-xl border bg-card text-card-foreground shadow mb-4">
+            <div className="p-2">
+                <h3 className="text-red-500 font-semibold leading-none tracking-tight">
+                    {translateString(TranslatableString.ErrorsLabel)}
+                </h3>
             </div>
-            <ul className="list-group">
+            <ul className="p-2 grid gap-1">
                 {errors.map((error: RJSFValidationError, i: number) => {
                     return (
-                        <li key={i} className="list-group-item text-danger">
-                            {error.stack}
+                        <li
+                            key={i}
+                            className="mb-1 grid grid-cols-[25px_1fr] items-start pb-2 last:mb-0 last:pb-0"
+                        >
+                            <span className="flex h-2 w-2 translate-y-1 rounded-full bg-red-600"></span>
+                            <div className="space-y-1">
+                                <p className="text-sm font-medium leading-none">{error.stack}</p>
+                            </div>
                         </li>
                     );
                 })}
