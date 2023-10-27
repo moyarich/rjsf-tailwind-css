@@ -211,6 +211,7 @@ export default function Editors({
                         </div>
                     ),
                 };
+                break;
             case "schema":
             default:
                 tab = {
