@@ -129,7 +129,7 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
     };
 
     const _handleFormDataChange = (form: IChangeEvent<unknown>, id?: string) => {
-        formDataEditorRef?.current?.setUpdatedCode(JSON.stringify(form.formData ?? {}));
+        formDataEditorRef?.current?.setUpdatedCode(toJson(form.formData ?? {}));
         onFormDataChange && onFormDataChange(form, id);
     };
 
@@ -137,7 +137,7 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
         form: IChangeEvent<unknown>,
         event: React.FormEvent<unknown>,
     ) => {
-        formDataEditorRef?.current?.setUpdatedCode(JSON.stringify(form.formData ?? {}));
+        formDataEditorRef?.current?.setUpdatedCode(toJson(form.formData ?? {}));
         onFormDataSubmit && onFormDataSubmit(form, event);
     };
 
@@ -210,9 +210,6 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                                 schema={toJson(schema)}
                                 uiSchema={toJson(uiSchema)}
                                 onChange={(newSchema: string, newUiSchema: string) => {
-                                    schemaEditorRef?.current?.setUpdatedCode(newSchema);
-                                    uiSchemaEditorRef?.current?.setUpdatedCode(newUiSchema);
-
                                     const schemaObj = JSON.parse(newSchema);
                                     const uiSchemaObj = JSON.parse(newUiSchema);
 
@@ -221,6 +218,9 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
 
                                     schemaFormRef?.current?.setSchema(schemaObj);
                                     schemaFormRef?.current?.setUiSchema(uiSchemaObj);
+
+                                    schemaEditorRef?.current?.setUpdatedCode(toJson(schemaObj));
+                                    uiSchemaEditorRef?.current?.setUpdatedCode(toJson(uiSchemaObj));
                                 }}
                             />
                         </div>

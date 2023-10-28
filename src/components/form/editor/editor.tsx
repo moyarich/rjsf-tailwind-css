@@ -1,5 +1,5 @@
-import React, { forwardRef, useCallback, useImperativeHandle, useState } from "react";
-import MonacoEditor from "@monaco-editor/react";
+import React, { forwardRef, useCallback, useImperativeHandle, useState, useRef } from "react";
+import MonacoEditor, { OnMount } from "@monaco-editor/react";
 
 import { CheckIcon, TrashIcon } from "@radix-ui/react-icons";
 
@@ -26,6 +26,8 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
 
     const [updatedCode, setUpdatedCode] = useState<string>(code ?? "");
 
+    const editor = useRef<any>();
+
     useImperativeHandle(
         ref,
         (): IEditorRef => {
@@ -36,15 +38,16 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
         [updatedCode],
     );
 
-    function handleEditorWillMount(monaco) {
+    const typeScriptConfig = {
+        parser: "typescript",
+        plugins: [typescriptParser],
+    };
+
+    function handleEditorBeforeMount(monaco) {
         monaco.languages.registerDocumentFormattingEditProvider("typescript", {
             displayName: "Prettier",
             provideDocumentFormattingEdits(model, options, token) {
-                const prettyVal = prettier.format(model.getValue(), {
-                    parser: "typescript",
-                    plugins: [typescriptParser],
-                });
-
+                const prettyVal = prettier.format(model.getValue(), typeScriptConfig);
                 return [{ range: model.getFullModelRange(), text: prettyVal }];
             },
         });
@@ -123,7 +126,7 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                 onChange={onCodeChange}
                 height={height}
                 options={monacoEditorOptions}
-                beforeMount={handleEditorWillMount}
+                beforeMount={handleEditorBeforeMount}
             />
         </div>
     );
