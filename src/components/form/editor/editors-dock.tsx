@@ -128,19 +128,6 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
         );
     };
 
-    const _handleFormDataChange = (form: IChangeEvent<unknown>, id?: string) => {
-        formDataEditorRef?.current?.setUpdatedCode(toJson(form.formData ?? {}));
-        onFormDataChange && onFormDataChange(form, id);
-    };
-
-    const _handleFormDataSubmit = (
-        form: IChangeEvent<unknown>,
-        event: React.FormEvent<unknown>,
-    ) => {
-        formDataEditorRef?.current?.setUpdatedCode(toJson(form.formData ?? {}));
-        onFormDataSubmit && onFormDataSubmit(form, event);
-    };
-
     const loadTab = ({ id }: TabBase): TabData => {
         let tab = {} as TabData;
 
@@ -156,9 +143,10 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                                 title="UISchema"
                                 code={toJson(uiSchema)}
                                 onChange={(code: string) => {
-                                    formBuilderGuiRef?.current?.setUiSchema(code);
                                     const codeObject = JSON.parse(code);
                                     setUiSchema(codeObject);
+
+                                    formBuilderGuiRef?.current?.setUiSchema(code);
                                 }}
                             />
                         </div>
@@ -190,8 +178,8 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                                             },
                                         )
                                     ) {
-                                        schemaFormRef?.current?.setFormData(newFormData);
                                         setFormData(newFormData);
+                                        schemaFormRef?.current?.setFormData(newFormData);
                                     }
                                 }}
                             />
@@ -240,8 +228,23 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                                 uiSchema={uiSchema}
                                 formData={formData}
                                 validator={validator}
-                                onFormDataChange={_handleFormDataChange}
-                                onFormDataSubmit={_handleFormDataSubmit}
+                                onFormDataChange={(form: IChangeEvent<unknown>, id?: string) => {
+                                    setFormData(form.formData);
+                                    formDataEditorRef?.current?.setUpdatedCode(
+                                        toJson(form.formData ?? {}),
+                                    );
+                                    onFormDataChange && onFormDataChange(form, id);
+                                }}
+                                onFormDataSubmit={(
+                                    form: IChangeEvent<unknown>,
+                                    event: React.FormEvent<unknown>,
+                                ) => {
+                                    setFormData(form.formData);
+                                    formDataEditorRef?.current?.setUpdatedCode(
+                                        toJson(form.formData ?? {}),
+                                    );
+                                    onFormDataSubmit && onFormDataSubmit(form, event);
+                                }}
                                 {...otherFormProps}
                             />
                         </div>
@@ -271,11 +274,11 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                                 title="JSONSchema"
                                 code={toJson(schema)}
                                 onChange={(code: string) => {
-                                    formBuilderGuiRef?.current?.setSchema(code);
-
                                     const codeObject = JSON.parse(code);
                                     setSchema(codeObject);
+
                                     schemaFormRef?.current?.setSchema(codeObject);
+                                    formBuilderGuiRef?.current?.setSchema(code);
                                 }}
                             />
                         </div>

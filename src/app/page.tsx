@@ -52,6 +52,7 @@ const Page: NextPage = () => {
         editorsRef?.current?.resetLayout();
     }, [selectedSchema]);
 
+    /*
     const handleFormDataChange = (form: IChangeEvent<unknown>, id?: string) => {
         console.log("handleFormDataChange -- form id: ", id);
         console.dir(form.formData, { depth: null });
@@ -61,7 +62,7 @@ const Page: NextPage = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handleFormDataSubmit = (form: IChangeEvent<unknown>, _event: unknown) => {
         setFormData(form.formData);
-    };
+    };*/
 
     const handleTemplateSave = (
         schema: RJSFSchema,
@@ -103,8 +104,6 @@ const Page: NextPage = () => {
                     setUiSchema={setUiSchema}
                     extraErrors={extraErrors}
                     setExtraErrors={setExtraErrors}
-                    onFormDataChange={handleFormDataChange}
-                    onFormDataSubmit={handleFormDataSubmit}
                     onTemplateSave={handleTemplateSave}
                     otherFormProps={otherFormProps}
                 />

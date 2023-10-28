@@ -13,8 +13,6 @@ export interface IEditorFormProps
         "schema" | "uiSchema" | "formData" | "onChange" | "onSubmit" | "validator"
     > {}
 
-const toJson = (val: unknown) => JSON.stringify(val ?? {}, null, "\t");
-
 /**
  * uses forwardRef to change SchemaForm without rerending its parent (the rc-dock container)
  */
@@ -49,29 +47,52 @@ export const SchemaForm = forwardRef((props: ISchemaFormProps, ref) => {
         otherFormProps,
     } = props;
 
-    const [_schema, _setSchema] = useState(schema);
-    const [_uiSchema, _setUiSchema] = useState(uiSchema);
-    const [_formData, _setFormData] = useState(formData);
+    const [updatedSchema, setUpdatedSchema] = useState<RJSFSchema>(schema);
+    const [updatedUiSchema, setUpdatedUiSchema] = useState<UiSchema>(uiSchema);
+    const [updatedFormData, setUpdatedFormData] = useState<unknown>(formData);
 
     useImperativeHandle(
         ref,
         (): ISchemaFormRef => {
             return {
-                setSchema: _setSchema,
-                setUiSchema: _setUiSchema,
-                setFormData: _setFormData,
+                setSchema: setUpdatedSchema,
+                setUiSchema: setUpdatedUiSchema,
+                setFormData: setUpdatedFormData,
             };
         },
-        [_schema, _uiSchema, _formData, schema, uiSchema, formData],
+        [updatedSchema, updatedUiSchema, updatedFormData],
     );
+
+    (form: IChangeEvent<unknown>, event: React.FormEvent<unknown>) => {
+        /*
+        setFormData(form.formData);
+        formDataEditorRef?.current?.setUpdatedCode(
+            toJson(form.formData ?? {}),
+        );
+        onFormDataSubmit && onFormDataSubmit(form, event);
+        */
+    };
+
+    const handleFormDataChange = (form: IChangeEvent<unknown>, id?: string) => {
+        setUpdatedFormData(form.formData);
+        onFormDataChange && onFormDataChange(form, id);
+    };
+
+    const handleFormDataSubmit = (
+        form: IChangeEvent<unknown, RJSFSchema, FormContextType>,
+        event: React.FormEvent<unknown>,
+    ) => {
+        setUpdatedFormData(form.formData);
+        onFormDataSubmit && onFormDataSubmit(form, event);
+    };
 
     const formProps = {
         ...otherFormProps,
-        schema: _schema,
-        uiSchema: _uiSchema,
-        formData: _formData,
-        onChange: onFormDataChange,
-        onSubmit: onFormDataSubmit,
+        schema: updatedSchema,
+        uiSchema: updatedUiSchema,
+        formData: updatedFormData,
+        onChange: handleFormDataChange,
+        onSubmit: handleFormDataSubmit,
         validator: validator,
     };
 
