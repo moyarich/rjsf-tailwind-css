@@ -53,7 +53,7 @@ const Page: NextPage = () => {
     }, [selectedSchema]);
 
     const handleFormDataChange = (form: IChangeEvent<unknown>, id?: string) => {
-        console.log("form id: ", id);
+        console.log("handleFormDataChange -- form id: ", id);
         console.dir(form.formData, { depth: null });
         setFormData(form.formData);
     };

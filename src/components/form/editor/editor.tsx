@@ -1,10 +1,14 @@
-import React, { useCallback, useState } from "react";
+import React, { forwardRef, useCallback, useImperativeHandle, useState } from "react";
 import MonacoEditor from "@monaco-editor/react";
 
 import { CheckIcon, TrashIcon } from "@radix-ui/react-icons";
 
 import prettier from "prettier/standalone";
 import typescriptParser from "prettier/parser-typescript";
+
+export interface IEditorRef {
+    setUpdatedCode: React.Dispatch<React.SetStateAction<string>>;
+}
 
 export type EditorProps = {
     title: string;
@@ -16,18 +20,21 @@ export type EditorProps = {
     defaultValue?: string;
 };
 
-export default function Editor({
-    title,
-    code,
-    onChange,
-    onSave,
-    height = "100%",
-    className,
-    defaultValue = "",
-}: EditorProps) {
+export const Editor = forwardRef((props: EditorProps, ref) => {
+    const { title, code, onChange, onSave, height = "100%", className, defaultValue = "" } = props;
     const [valid, setValid] = useState(true);
 
     const [updatedCode, setUpdatedCode] = useState<string>(code ?? "");
+
+    useImperativeHandle(
+        ref,
+        (): IEditorRef => {
+            return {
+                setUpdatedCode,
+            };
+        },
+        [updatedCode],
+    );
 
     function handleEditorWillMount(monaco) {
         monaco.languages.registerDocumentFormattingEditProvider("typescript", {
@@ -120,4 +127,6 @@ export default function Editor({
             />
         </div>
     );
-}
+});
+
+export default Editor;

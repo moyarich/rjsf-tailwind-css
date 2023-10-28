@@ -15,9 +15,10 @@ import isEqualWith from "lodash/isEqualWith";
 import DockLayout, { DockMode, LayoutBase, TabBase, TabData } from "rc-dock";
 import "rc-dock/dist/rc-dock.css";
 
-import FormBuilderGuiEditor from "./form-builder-gui-editor";
-import Editor from "./editor";
+import FormBuilderGuiEditor, { IFormBuilderGuiEditorRef } from "./form-builder-gui-editor";
+import Editor, { IEditorRef } from "./editor";
 import ThemeForm from "../theme";
+import { ISchemaFormRef, SchemaForm } from "./SchemaForm";
 
 export interface IEditorFormProps
     extends Omit<
@@ -75,7 +76,11 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
 
     const [layout, setLayout] = useState<LayoutBase | undefined>();
 
+    const formBuilderGuiRef = useRef<IFormBuilderGuiEditorRef>();
     const schemaFormRef = useRef<ISchemaFormRef>();
+    const schemaEditorRef = useRef<IEditorRef>();
+    const uiSchemaEditorRef = useRef<IEditorRef>();
+    const formDataEditorRef = useRef<IEditorRef>();
 
     // This ref will always be defined
     // eslint-disable-next-line no-type-assertion/no-type-assertion
@@ -86,7 +91,7 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
         () => {
             return {
                 resetLayout: () => {
-                    setLayout(defaultLayout);
+                    setLayout(getDefaultLayout());
                 },
                 ...(dockLayoutRef?.current ?? {}),
             };
@@ -123,6 +128,19 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
         );
     };
 
+    const _handleFormDataChange = (form: IChangeEvent<unknown>, id?: string) => {
+        formDataEditorRef?.current?.setUpdatedCode(JSON.stringify(form.formData ?? {}));
+        onFormDataChange && onFormDataChange(form, id);
+    };
+
+    const _handleFormDataSubmit = (
+        form: IChangeEvent<unknown>,
+        event: React.FormEvent<unknown>,
+    ) => {
+        formDataEditorRef?.current?.setUpdatedCode(JSON.stringify(form.formData ?? {}));
+        onFormDataSubmit && onFormDataSubmit(form, event);
+    };
+
     const loadTab = ({ id }: TabBase): TabData => {
         let tab = {} as TabData;
 
@@ -137,6 +155,7 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                                 title="UISchema"
                                 code={toJson(uiSchema)}
                                 onChange={(code: string) => {
+                                    formBuilderGuiRef?.current?.setUiSchema(code);
                                     const codeObject = JSON.parse(code);
                                     setUiSchema(codeObject);
                                 }}
@@ -169,6 +188,7 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                                             },
                                         )
                                     ) {
+                                        schemaFormRef?.current?.setFormData(newFormData);
                                         setFormData(newFormData);
                                     }
                                 }}
@@ -187,6 +207,9 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                                 schema={toJson(schema)}
                                 uiSchema={toJson(uiSchema)}
                                 onChange={(newSchema: string, newUiSchema: string) => {
+                                    schemaEditorRef?.current?.setUpdatedCode(newSchema);
+                                    uiSchemaEditorRef?.current?.setUpdatedCode(newUiSchema);
+
                                     const schemaObj = JSON.parse(newSchema);
                                     const uiSchemaObj = JSON.parse(newUiSchema);
 
@@ -214,8 +237,8 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                                 uiSchema={uiSchema}
                                 formData={formData}
                                 validator={validator}
-                                onFormDataChange={onFormDataChange}
-                                onFormDataSubmit={onFormDataSubmit}
+                                onFormDataChange={_handleFormDataChange}
+                                onFormDataSubmit={_handleFormDataSubmit}
                                 {...otherFormProps}
                             />
                         </div>
@@ -244,9 +267,10 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                                 title="JSONSchema"
                                 code={toJson(schema)}
                                 onChange={(code: string) => {
+                                    formBuilderGuiRef?.current?.setSchema(code);
+
                                     const codeObject = JSON.parse(code);
                                     setSchema(codeObject);
-
                                     schemaFormRef?.current?.setSchema(codeObject);
                                 }}
                             />
@@ -259,39 +283,41 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
         return tab;
     };
 
-    const defaultLayout: LayoutBase = {
-        dockbox: {
-            mode: "horizontal" as DockMode,
-            children: [
-                {
-                    mode: "vertical" as DockMode,
-                    children: [
-                        {
-                            tabs: [
-                                { id: "schema" },
-                                { id: "uiSchema" },
-                                //...(extraErrors ? [{ id: 'extraErrors'}] : []),
-                                { id: "formBuilder" },
-                            ],
-                        },
-                    ],
-                },
+    const getDefaultLayout = (): LayoutBase => {
+        return {
+            dockbox: {
+                mode: "horizontal" as DockMode,
+                children: [
+                    {
+                        mode: "vertical" as DockMode,
+                        children: [
+                            {
+                                tabs: [
+                                    { id: "schema" },
+                                    { id: "uiSchema" },
+                                    //...(extraErrors ? [{ id: 'extraErrors'}] : []),
+                                    { id: "formBuilder" },
+                                ],
+                            },
+                        ],
+                    },
 
-                {
-                    mode: "vertical" as DockMode,
-                    children: [
-                        {
-                            tabs: [{ id: "preview" }, { id: "formData" }],
-                        },
-                    ],
-                },
-            ],
-        },
+                    {
+                        mode: "vertical" as DockMode,
+                        children: [
+                            {
+                                tabs: [{ id: "preview" }, { id: "formData" }],
+                            },
+                        ],
+                    },
+                ],
+            },
+        };
     };
 
     useEffect(() => {
         console.log("useEffect: load Dock Layout---->");
-        setLayout(defaultLayout);
+        setLayout({ ...getDefaultLayout() });
     }, []);
 
     return (
@@ -330,7 +356,7 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                             onLayoutChange={(newLayout) => {
                                 console.log("Dock layout onLayoutChange: load Dock Layout---->");
                                 dockLayoutRef.current.loadLayout(newLayout as LayoutBase);
-                                setLayout(newLayout);
+                                setLayout({ ...newLayout });
                             }}
                         />
                     </div>
@@ -341,66 +367,3 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
 });
 
 export default Editors;
-
-/**
- * uses forwardRef to change SchemaForm without rerending its parent (the rc-dock container)
- */
-export interface ISchemaFormProps {
-    schema: RJSFSchema;
-    uiSchema: UiSchema;
-    otherFormProps?: IEditorFormProps;
-    formData: unknown;
-    validator: ValidatorType;
-    onFormDataChange?: (
-        form: IChangeEvent<unknown, RJSFSchema, FormContextType>,
-        id?: string,
-    ) => void;
-    onFormDataSubmit?: (
-        form: IChangeEvent<unknown, RJSFSchema, FormContextType>,
-        event: React.FormEvent<unknown>,
-    ) => void;
-}
-export interface ISchemaFormRef {
-    setSchema: React.Dispatch<React.SetStateAction<RJSFSchema>>;
-    setUiSchema: React.Dispatch<React.SetStateAction<UiSchema>>;
-    setFormData: React.Dispatch<React.SetStateAction<unknown>>;
-}
-export const SchemaForm = forwardRef((props: ISchemaFormProps, ref) => {
-    const {
-        schema,
-        uiSchema,
-        formData,
-        validator,
-        onFormDataChange,
-        onFormDataSubmit,
-        otherFormProps,
-    } = props;
-
-    const [_schema, _setSchema] = useState(schema);
-    const [_uiSchema, _setUiSchema] = useState(uiSchema);
-    const [_formData, _setFormData] = useState(formData);
-
-    useImperativeHandle(
-        ref,
-        (): ISchemaFormRef => {
-            return {
-                setSchema: _setSchema,
-                setUiSchema: _setUiSchema,
-                setFormData: _setFormData,
-            };
-        },
-        [_schema, _setSchema, _uiSchema, _setUiSchema],
-    );
-
-    const formProps = {
-        ...otherFormProps,
-        schema: _schema,
-        uiSchema: _uiSchema,
-        formData: _formData,
-        onChange: onFormDataChange,
-        onSubmit: onFormDataSubmit,
-        validator: validator,
-    };
-
-    return <ThemeForm {...formProps} />;
-});
