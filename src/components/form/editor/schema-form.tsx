@@ -8,7 +8,7 @@ import "rc-dock/dist/rc-dock.css";
 import ThemeForm from "../theme";
 
 /**
- * uses forwardRef to change SchemaForm without rerending its parent (the rc-dock container)
+ * uses forwardRef to change SchemaForm without rerending its parent
  */
 export interface ISchemaFormProps extends FormProps {
     schema: RJSFSchema;
@@ -55,16 +55,6 @@ export const SchemaForm = forwardRef((props: ISchemaFormProps, ref) => {
         },
         [updatedSchema, updatedUiSchema, updatedFormData],
     );
-
-    (form: IChangeEvent<unknown>, event: React.FormEvent<unknown>) => {
-        /*
-        setFormData(form.formData);
-        formDataEditorRef?.current?.setUpdatedCode(
-            toJson(form.formData ?? {}),
-        );
-        onFormDataSubmit && onFormDataSubmit(form, event);
-        */
-    };
 
     const handleFormDataChange = (form: IChangeEvent<unknown>, id?: string) => {
         setUpdatedFormData(form.formData);
