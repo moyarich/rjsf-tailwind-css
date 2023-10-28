@@ -7,19 +7,12 @@ import "rc-dock/dist/rc-dock.css";
 
 import ThemeForm from "../theme";
 
-export interface IEditorFormProps
-    extends Omit<
-        FormProps,
-        "schema" | "uiSchema" | "formData" | "onChange" | "onSubmit" | "validator"
-    > {}
-
 /**
  * uses forwardRef to change SchemaForm without rerending its parent (the rc-dock container)
  */
-export interface ISchemaFormProps {
+export interface ISchemaFormProps extends FormProps {
     schema: RJSFSchema;
     uiSchema: UiSchema;
-    otherFormProps?: IEditorFormProps;
     formData: unknown;
     validator: ValidatorType;
     onFormDataChange?: (
@@ -44,7 +37,7 @@ export const SchemaForm = forwardRef((props: ISchemaFormProps, ref) => {
         validator,
         onFormDataChange,
         onFormDataSubmit,
-        otherFormProps,
+        ...otherFormProps
     } = props;
 
     const [updatedSchema, setUpdatedSchema] = useState<RJSFSchema>(schema);

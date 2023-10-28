@@ -223,6 +223,7 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                     content: (
                         <div className="relative overflow-auto h-full p-8 m-2">
                             <SchemaForm
+                                {...otherFormProps}
                                 ref={schemaFormRef}
                                 schema={schema}
                                 uiSchema={uiSchema}
@@ -245,7 +246,6 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                                     );
                                     onFormDataSubmit && onFormDataSubmit(form, event);
                                 }}
-                                {...otherFormProps}
                             />
                         </div>
                     ),
