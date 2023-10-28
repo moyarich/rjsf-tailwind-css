@@ -18,7 +18,7 @@ import "rc-dock/dist/rc-dock.css";
 import FormBuilderGuiEditor, { IFormBuilderGuiEditorRef } from "./form-builder-gui-editor";
 import Editor, { IEditorRef } from "./editor";
 import ThemeForm from "../theme";
-import { ISchemaFormRef, SchemaForm } from "./SchemaForm";
+import { ISchemaFormRef, SchemaForm } from "./schema-form";
 
 export interface IEditorFormProps
     extends Omit<
