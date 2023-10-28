@@ -152,6 +152,7 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                     content: (
                         <div className="relative h-full p-8 m-2">
                             <Editor
+                                ref={uiSchemaEditorRef}
                                 title="UISchema"
                                 code={toJson(uiSchema)}
                                 onChange={(code: string) => {
@@ -171,6 +172,7 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                     content: (
                         <div className="relative h-full p-8 m-2">
                             <Editor
+                                ref={formDataEditorRef}
                                 title="formData"
                                 code={toJson(formData)}
                                 onChange={(code: string) => {
@@ -204,6 +206,7 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                     content: (
                         <div className="relative overflow-auto h-full p-8 m-2">
                             <FormBuilderGuiEditor
+                                ref={formBuilderGuiRef}
                                 schema={toJson(schema)}
                                 uiSchema={toJson(uiSchema)}
                                 onChange={(newSchema: string, newUiSchema: string) => {
@@ -264,6 +267,7 @@ const Editors = forwardRef((props: EditorsProps, ref) => {
                     content: (
                         <div className="relative h-full p-8 m-2">
                             <Editor
+                                ref={schemaEditorRef}
                                 title="JSONSchema"
                                 code={toJson(schema)}
                                 onChange={(code: string) => {
