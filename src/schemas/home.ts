@@ -103,6 +103,7 @@ export const schema: RJSFSchema = {
                         image: {
                             type: "object",
                             properties: {
+                                fileLocation: { type: "string", title: "File Location" },
                                 url: { type: "string", title: "URL" },
                                 alt: { type: "string", title: "Alt Text" },
                             },
@@ -151,6 +152,7 @@ export const schema: RJSFSchema = {
                             image: {
                                 type: "object",
                                 properties: {
+                                    fileLocation: { type: "string", title: "File Location" },
                                     url: { type: "string", title: "URL" },
                                     alt: { type: "string", title: "Alt Text" },
                                 },
@@ -181,6 +183,7 @@ export const schema: RJSFSchema = {
                             image: {
                                 type: "object",
                                 properties: {
+                                    fileLocation: { type: "string", title: "File Location" },
                                     url: { type: "string", title: "URL" },
                                     alt: { type: "string", title: "Alt Text" },
                                 },
@@ -200,6 +203,7 @@ export const schema: RJSFSchema = {
                         image: {
                             type: "object",
                             properties: {
+                                fileLocation: { type: "string", title: "File Location" },
                                 url: { type: "string", title: "URL" },
                                 alt: { type: "string", title: "Alt Text" },
                             },
@@ -286,6 +290,7 @@ export const uiSchema: UiSchema = {
 };
 
 export const formData = {
+    title: "home v1",
     announcements: {
         entries: [
             {
@@ -324,6 +329,7 @@ export const formData = {
             image: {
                 url: "/images/banner-homepage.png",
                 alt: "Banner Alt Text",
+                fileLocation: "url",
             },
         },
     },
@@ -338,6 +344,7 @@ export const formData = {
                     "This launch webinar organized on 29th April 2021, features a global expert, Dr Joaquin Mateo...",
                 url: "News/1",
                 image: {
+                    fileLocation: "url",
                     url: "/images/test-news.jpg",
                     alt: "Virtual Launch",
                 },
@@ -351,6 +358,7 @@ export const formData = {
                     "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa...",
                 url: "News/5",
                 image: {
+                    fileLocation: "url",
                     url: "/images/test-news.jpg",
                     alt: "Test News",
                 },
@@ -368,6 +376,7 @@ export const formData = {
                 description: "Some placeholder content in a paragraph.",
                 time: "now",
                 image: {
+                    fileLocation: "url",
                     url: "https://github.com/twbs.png",
                     alt: "",
                 },
@@ -380,6 +389,7 @@ export const formData = {
                     "Some placeholder content in a paragraph that goes a little longer so it wraps to a new line.",
                 time: "3d",
                 image: {
+                    fileLocation: "url",
                     url: "https://github.com/twbs.png",
                     alt: "",
                 },
@@ -391,6 +401,7 @@ export const formData = {
                 description: "Some placeholder content in a paragraph.",
                 time: "1w",
                 image: {
+                    fileLocation: "url",
                     url: "https://github.com/twbs.png",
                     alt: "",
                 },
@@ -475,6 +486,7 @@ export const formData = {
         banner: {
             text: "At __CPNY__, we put patients first as we partner with societies to truly understand patients' needs.",
             image: {
+                fileLocation: "url",
                 url: "/images/footer-banner.jpg",
                 alt: "",
             },
