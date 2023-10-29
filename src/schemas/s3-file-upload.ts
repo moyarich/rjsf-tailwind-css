@@ -15,7 +15,7 @@ export const schema: RJSFSchema = {
             $id: "/schemas/specialString",
             type: "string",
         },
-        UUIDString: {
+        "uuid-string": {
             $id: "/schemas/uuid-string",
             type: "string",
         },
@@ -23,7 +23,7 @@ export const schema: RJSFSchema = {
             type: "object",
             properties: {
                 id: {
-                    $id: "/schemas/UUIDString",
+                    $id: "/schemas/uuid-string",
                     type: "string",
                     title: "Id",
                 },
