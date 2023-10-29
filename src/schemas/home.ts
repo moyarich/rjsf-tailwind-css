@@ -7,13 +7,14 @@ export const schema: RJSFSchema = {
     description: "Alter the template for the page",
     type: "object",
     definitions: {
-        specialString: {
-            $id: "/schemas/specialString",
-            type: "string",
-        },
         "uuid-string": {
             $id: "/schemas/uuid-string",
             type: "string",
+        },
+        "s3-file-upload": {
+            $id: "/schemas/s3-file-upload",
+            type: "string",
+            title: "S3 Object Key",
         },
         media: {
             type: "object",
