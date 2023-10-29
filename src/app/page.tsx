@@ -17,6 +17,7 @@ import rjsfPlaygroundSamples from "@/schemas/samples";
 import SpecialInput from "@/components/form/custom-components/fields/special-input";
 import S3FileUpload from "@/components/form/custom-components/fields/s3-file-upload";
 import handleUploadFile from "@/app/s3";
+import UUIDInput from "@/components/form/custom-components/fields/uuid-input";
 
 const schemasSamples = {
     ...customsSamples,
@@ -78,6 +79,7 @@ const Page: NextPage = () => {
         fields: {
             "/schemas/specialString": SpecialInput,
             "/schemas/s3-file-upload": S3FileUpload,
+            "/schemas/uuid-string": UUIDInput,
         },
         formContext: {
             handleS3FileUpload: handleUploadFile,
