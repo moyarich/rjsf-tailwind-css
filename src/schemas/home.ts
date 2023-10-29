@@ -75,6 +75,7 @@ export const schema: RJSFSchema = {
         },
     },
     properties: {
+        title: { type: "string", title: "Title" },
         announcements: {
             type: "object",
             properties: {
