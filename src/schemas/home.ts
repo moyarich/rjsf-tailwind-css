@@ -228,10 +228,38 @@ export const uiSchema: UiSchema = {
 
 export const formData = {
     announcements: {
+        entries: [
+            {
+                id: "072e868e-e205-4712-840a-99eb8f976066",
+            },
+        ],
         title: "",
-        entries: [],
     },
     hero: {
+        posts: {
+            entries: [
+                {
+                    id: "4b0029ce-f557-45d6-b34c-39590420870c",
+                    name: "Cardiovascular, Renal, Metabolism",
+                    url: "/TherapeuticArea/1",
+                },
+                {
+                    id: "8ba4def7-230d-4499-bae6-ecda3c91b681",
+                    name: "Oncology",
+                    url: "/TherapeuticArea/2",
+                },
+                {
+                    id: "a8d893ef-ddca-448c-b6e4-460274df2129",
+                    name: "Respiratory & Immunology",
+                    url: "/TherapeuticArea/3",
+                },
+                {
+                    id: "d78d83c5-7f34-4443-b676-72d2b73cee0c",
+                    name: "Rare Diseases",
+                    url: "/TherapeuticArea/4",
+                },
+            ],
+        },
         banner: {
             text: "At __CPNY__, science is at the heart of everything we do. But more than that, science is a way of life. We push the boundaries of science to provide life-changing treatments.",
             image: {
@@ -239,35 +267,8 @@ export const formData = {
                 alt: "Banner Alt Text",
             },
         },
-        posts: {
-            entries: [
-                {
-                    id: "4bdea75e-4145-4e70-8f18-2dddc932e24b",
-                    name: "Cardiovascular, Renal, Metabolism",
-                    url: "/TherapeuticArea/1",
-                },
-                {
-                    id: "2f017a95-d1db-49a3-b49f-74b17f94f5c5",
-                    name: "Oncology",
-                    url: "/TherapeuticArea/2",
-                },
-                {
-                    id: "6c175935-8704-4b02-a1d0-4ac1920c9e90",
-                    name: "Respiratory & Immunology",
-                    url: "/TherapeuticArea/3",
-                },
-                {
-                    id: "3fdab0a3-0cc9-477e-8cc5-61d9e7b7ee00",
-                    name: "Rare Diseases",
-                    url: "/TherapeuticArea/4",
-                },
-            ],
-        },
     },
     news: {
-        title: "Latest News",
-        url: "/allnews",
-        noNewsText: "No news is available at the moment. Please check back later.",
         entries: [
             {
                 id: "3ea1de6c-d3f3-4929-b24e-2474cc4b0ae3",
@@ -296,19 +297,17 @@ export const formData = {
                 },
             },
         ],
+        title: "Latest News",
+        url: "/allnews",
+        noNewsText: "No news is available at the moment. Please check back later.",
     },
-
     events: {
-        title: "Upcoming Events",
-        url: "",
-        noEventsText: "No upcoming events are scheduled.",
         entries: [
             {
-                id: "1",
+                id: "a5200720-fd3c-4f4a-a755-a487a7144ef8",
                 title: "Event 1",
                 description: "Some placeholder content in a paragraph.",
                 time: "now",
-
                 image: {
                     url: "https://github.com/twbs.png",
                     alt: "",
@@ -316,7 +315,7 @@ export const formData = {
                 url: "",
             },
             {
-                id: "2",
+                id: "e14a114a-c294-4e12-afe4-f9c645045ec1",
                 title: "Event 2",
                 description:
                     "Some placeholder content in a paragraph that goes a little longer so it wraps to a new line.",
@@ -328,7 +327,7 @@ export const formData = {
                 url: "",
             },
             {
-                id: "3",
+                id: "15b43420-5200-4493-b767-724cfe6d49cd",
                 title: "Event 3",
                 description: "Some placeholder content in a paragraph.",
                 time: "1w",
@@ -339,17 +338,64 @@ export const formData = {
                 url: "",
             },
         ],
+        title: "Upcoming Events",
+        url: "",
+        noEventsText: "No upcoming events are scheduled.",
     },
-
     footer: {
-        banner: {
-            text: "At __CPNY__, we put patients first as we partner with societies to truly understand patients' needs.",
-            image: {
-                url: "/images/footer-banner.jpg",
-                alt: "",
-            },
-        },
         widgets: {
+            policy: {
+                menu: [
+                    {
+                        id: "cd23c597-8882-4c28-80e8-593a6dbbc227",
+                        title: "Legal Notice and Terms of Use",
+                        url: "https://www.__CPNY__.com/legal-notice-and-terms-of-use.html",
+                        type: "custom",
+                    },
+                    {
+                        id: "7c90cbef-e236-42b8-91d1-43fa6bd8aa87",
+                        title: "Privacy Notice",
+                        url: "https://www.globalprivacy.__CPNY__.com/",
+                        type: "custom",
+                    },
+                    {
+                        id: "1f4db59e-a633-4401-8aeb-4502f0693613",
+                        title: "Cookie Policy",
+                        url: "https://policy.cookies.com/8e80276f-en-gb.html",
+                        type: "custom",
+                    },
+                ],
+                title: "Our Policies",
+            },
+            information: {
+                menu: [
+                    {
+                        id: "edbc1905-751f-4ae3-8038-1aea5a8cf6cb",
+                        title: "Adverse Event Reporting",
+                        url: "https://contact__CPNY__medical.__CPNY__.com/",
+                        type: "custom",
+                    },
+                    {
+                        id: "1e4bb4ce-e325-4c0e-8054-241905a26eb5",
+                        title: "Medical Information Request",
+                        url: "https://contact__CPNY__medical.__CPNY__.com/",
+                        type: "custom",
+                    },
+                    {
+                        id: "a3faa94d-7f48-4126-8cac-f8e9d4788ebe",
+                        title: "Product Quality Complaint",
+                        url: "https://contact__CPNY__medical.__CPNY__.com/",
+                        type: "custom",
+                    },
+                    {
+                        id: "4ceaa4c1-03b2-42b2-86aa-fbd6f5207e9b",
+                        title: "Geoff's Playground",
+                        url: "/TestGeoffsPlayground",
+                        type: "custom",
+                    },
+                ],
+                title: "Information",
+            },
             copyright: {
                 logoSrc: "/images/logo-__CPNY__medconnect-white.png",
                 logoAlt: "__CPNY__MedConnect Logo",
@@ -358,60 +404,6 @@ export const formData = {
                 copyrightText: "© __CPNY__ {{year}}",
                 sgNumber: "SG-4973",
             },
-            policy: {
-                title: "Our Policies",
-                menu: [
-                    {
-                        id: "1",
-                        title: "Legal Notice and Terms of Use",
-                        url: "https://www.__CPNY__.com/legal-notice-and-terms-of-use.html",
-                        type: "custom",
-                    },
-                    {
-                        id: "2",
-                        title: "Privacy Notice",
-                        url: "https://www.globalprivacy.__CPNY__.com/",
-                        type: "custom",
-                    },
-                    {
-                        id: "3",
-                        title: "Cookie Policy",
-                        url: "https://policy.cookies.com/8e80276f-en-gb.html",
-                        type: "custom",
-                    },
-                ],
-            },
-
-            information: {
-                title: "Information",
-                menu: [
-                    {
-                        id: "4",
-                        title: "Adverse Event Reporting",
-                        url: "https://contact__CPNY__medical.__CPNY__.com/",
-                        type: "custom",
-                    },
-                    {
-                        id: "5",
-                        title: "Medical Information Request",
-                        url: "https://contact__CPNY__medical.__CPNY__.com/",
-                        type: "custom",
-                    },
-                    {
-                        id: "6",
-                        title: "Product Quality Complaint",
-                        url: "https://contact__CPNY__medical.__CPNY__.com/",
-                        type: "custom",
-                    },
-                    {
-                        id: "7",
-                        title: "Geoff's Playground",
-                        url: "/TestGeoffsPlayground",
-                        type: "custom",
-                    },
-                ],
-            },
-
             contactInfo: {
                 title: "Contact Us",
                 name: "__CPNY__ Singapore Pte Ltd",
@@ -419,6 +411,13 @@ export const formData = {
                 telephone: "+4700",
                 fax: "+3050",
                 website: "http://www.__.com/singapore",
+            },
+        },
+        banner: {
+            text: "At __CPNY__, we put patients first as we partner with societies to truly understand patients' needs.",
+            image: {
+                url: "/images/footer-banner.jpg",
+                alt: "",
             },
         },
     },
