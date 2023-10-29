@@ -15,6 +15,64 @@ export const schema: RJSFSchema = {
             $id: "/schemas/uuid-string",
             type: "string",
         },
+        media: {
+            type: "object",
+            properties: {
+                fileLocation: {
+                    title: "File Location",
+                    type: "string",
+                    enum: ["s3", "url", "dataURL"],
+                    default: "s3",
+                },
+                alt: {
+                    type: "string",
+                    title: "Alt Text",
+                },
+            },
+            dependencies: {
+                fileLocation: {
+                    oneOf: [
+                        {
+                            properties: {
+                                fileLocation: {
+                                    enum: ["s3"],
+                                },
+                                s3ObjectKey: {
+                                    $ref: "#/definitions/s3-file-upload",
+                                },
+                            },
+                            required: ["s3ObjectKey"],
+                        },
+                        {
+                            properties: {
+                                fileLocation: {
+                                    enum: ["url"],
+                                },
+                                url: {
+                                    type: "string",
+                                    title: "URL",
+                                },
+                            },
+                            required: ["url"],
+                        },
+                        {
+                            properties: {
+                                fileLocation: {
+                                    enum: ["dataURL"],
+                                },
+                                dataURL: {
+                                    type: "string",
+                                    title: "Data URL",
+                                    format: "data-url",
+                                },
+                            },
+                            required: ["dataURL"],
+                        },
+                    ],
+                },
+            },
+            required: ["fileLocation"],
+        },
     },
     properties: {
         announcements: {
@@ -220,6 +278,7 @@ export const schema: RJSFSchema = {
             },
         },
     },
+    required: ["title"],
 };
 
 export const uiSchema: UiSchema = {
