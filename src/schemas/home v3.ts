@@ -2,6 +2,7 @@ import { ISample } from "@/types";
 import { RJSFSchema, UiSchema } from "@rjsf/utils";
 
 export const schema: RJSFSchema = {
+    $id: "root-schema-id",
     title: "Edit Home",
     description: "Alter the template for the page",
     type: "object",
@@ -37,7 +38,9 @@ export const schema: RJSFSchema = {
                                 fileLocation: {
                                     enum: ["s3"],
                                 },
-                                s3ObjectKey: { $ref: "#/definitions/s3-file-upload" },
+                                s3ObjectKey: {
+                                    $ref: "#/definitions/s3-file-upload",
+                                },
                             },
                             required: ["s3ObjectKey"],
                         },
@@ -73,17 +76,11 @@ export const schema: RJSFSchema = {
         },
     },
     properties: {
-        title: {
-            type: "string",
-            title: "Title",
-        },
+        title: { type: "string", title: "Title" },
         announcements: {
             type: "object",
             properties: {
-                title: {
-                    type: "string",
-                    title: "Title",
-                },
+                title: { type: "string", title: "Title" },
                 entries: {
                     type: "array",
                     items: {
@@ -92,10 +89,7 @@ export const schema: RJSFSchema = {
                             id: {
                                 $ref: "#/definitions/uuid-string",
                             },
-                            text: {
-                                type: "string",
-                                title: "Text",
-                            },
+                            text: { type: "string", title: "Text" },
                         },
                     },
                 },
@@ -107,11 +101,15 @@ export const schema: RJSFSchema = {
                 banner: {
                     type: "object",
                     properties: {
-                        text: {
-                            type: "string",
-                            title: "Text",
+                        text: { type: "string", title: "Text" },
+                        image: {
+                            type: "object",
+                            properties: {
+                                fileLocation: { type: "string", title: "File Location" },
+                                url: { type: "string", title: "URL" },
+                                alt: { type: "string", title: "Alt Text" },
+                            },
                         },
-                        image: { $ref: "#/definitions/media" },
                     },
                 },
                 posts: {
@@ -125,14 +123,8 @@ export const schema: RJSFSchema = {
                                     id: {
                                         $ref: "#/definitions/uuid-string",
                                     },
-                                    name: {
-                                        type: "string",
-                                        title: "Name",
-                                    },
-                                    url: {
-                                        type: "string",
-                                        title: "URL",
-                                    },
+                                    name: { type: "string", title: "Name" },
+                                    url: { type: "string", title: "URL" },
                                 },
                             },
                         },
@@ -143,18 +135,9 @@ export const schema: RJSFSchema = {
         news: {
             type: "object",
             properties: {
-                title: {
-                    type: "string",
-                    title: "Title",
-                },
-                url: {
-                    type: "string",
-                    title: "URL",
-                },
-                noNewsText: {
-                    type: "string",
-                    title: "No News Text",
-                },
+                title: { type: "string", title: "Title" },
+                url: { type: "string", title: "URL" },
+                noNewsText: { type: "string", title: "No News Text" },
                 entries: {
                     type: "array",
                     items: {
@@ -163,27 +146,19 @@ export const schema: RJSFSchema = {
                             id: {
                                 $ref: "#/definitions/uuid-string",
                             },
-                            type: {
-                                type: "string",
-                                title: "Type",
+                            type: { type: "string", title: "Type" },
+                            title: { type: "string", title: "Title" },
+                            date: { type: "string", title: "Date" },
+                            subTitle: { type: "string", title: "Subtitle" },
+                            url: { type: "string", title: "URL" },
+                            image: {
+                                type: "object",
+                                properties: {
+                                    fileLocation: { type: "string", title: "File Location" },
+                                    url: { type: "string", title: "URL" },
+                                    alt: { type: "string", title: "Alt Text" },
+                                },
                             },
-                            title: {
-                                type: "string",
-                                title: "Title",
-                            },
-                            date: {
-                                type: "string",
-                                title: "Date",
-                            },
-                            subTitle: {
-                                type: "string",
-                                title: "Subtitle",
-                            },
-                            url: {
-                                type: "string",
-                                title: "URL",
-                            },
-                            image: { $ref: "#/definitions/media" },
                         },
                     },
                 },
@@ -192,18 +167,9 @@ export const schema: RJSFSchema = {
         events: {
             type: "object",
             properties: {
-                title: {
-                    type: "string",
-                    title: "Title",
-                },
-                url: {
-                    type: "string",
-                    title: "URL",
-                },
-                noEventsText: {
-                    type: "string",
-                    title: "No Events Text",
-                },
+                title: { type: "string", title: "Title" },
+                url: { type: "string", title: "URL" },
+                noEventsText: { type: "string", title: "No Events Text" },
                 entries: {
                     type: "array",
                     items: {
@@ -212,23 +178,18 @@ export const schema: RJSFSchema = {
                             id: {
                                 $ref: "#/definitions/uuid-string",
                             },
-                            title: {
-                                type: "string",
-                                title: "Title",
+                            title: { type: "string", title: "Title" },
+                            description: { type: "string", title: "Description" },
+                            time: { type: "string", title: "Time" },
+                            url: { type: "string", title: "URL" },
+                            image: {
+                                type: "object",
+                                properties: {
+                                    fileLocation: { type: "string", title: "File Location" },
+                                    url: { type: "string", title: "URL" },
+                                    alt: { type: "string", title: "Alt Text" },
+                                },
                             },
-                            description: {
-                                type: "string",
-                                title: "Description",
-                            },
-                            time: {
-                                type: "string",
-                                title: "Time",
-                            },
-                            url: {
-                                type: "string",
-                                title: "URL",
-                            },
-                            image: { $ref: "#/definitions/media" },
                         },
                     },
                 },
@@ -240,11 +201,15 @@ export const schema: RJSFSchema = {
                 banner: {
                     type: "object",
                     properties: {
-                        text: {
-                            type: "string",
-                            title: "Text",
+                        text: { type: "string", title: "Text" },
+                        image: {
+                            type: "object",
+                            properties: {
+                                fileLocation: { type: "string", title: "File Location" },
+                                url: { type: "string", title: "URL" },
+                                alt: { type: "string", title: "Alt Text" },
+                            },
                         },
-                        image: { $ref: "#/definitions/media" },
                     },
                 },
                 widgets: {
@@ -253,35 +218,20 @@ export const schema: RJSFSchema = {
                         copyright: {
                             type: "object",
                             properties: {
-                                logoSrc: {
-                                    type: "string",
-                                    title: "Logo Source",
-                                },
-                                logoAlt: {
-                                    type: "string",
-                                    title: "Logo Alt Text",
-                                },
+                                logoSrc: { type: "string", title: "Logo Source" },
+                                logoAlt: { type: "string", title: "Logo Alt Text" },
                                 intendedAudienceText: {
                                     type: "string",
                                     title: "Intended Audience Text",
                                 },
-                                copyrightText: {
-                                    type: "string",
-                                    title: "Copyright Text",
-                                },
-                                sgNumber: {
-                                    type: "string",
-                                    title: "SG Number",
-                                },
+                                copyrightText: { type: "string", title: "Copyright Text" },
+                                sgNumber: { type: "string", title: "SG Number" },
                             },
                         },
                         policy: {
                             type: "object",
                             properties: {
-                                title: {
-                                    type: "string",
-                                    title: "Title",
-                                },
+                                title: { type: "string", title: "Title" },
                                 menu: {
                                     type: "array",
                                     items: {
@@ -290,18 +240,9 @@ export const schema: RJSFSchema = {
                                             id: {
                                                 $ref: "#/definitions/uuid-string",
                                             },
-                                            title: {
-                                                type: "string",
-                                                title: "Title",
-                                            },
-                                            url: {
-                                                type: "string",
-                                                title: "URL",
-                                            },
-                                            type: {
-                                                type: "string",
-                                                title: "Type",
-                                            },
+                                            title: { type: "string", title: "Title" },
+                                            url: { type: "string", title: "URL" },
+                                            type: { type: "string", title: "Type" },
                                         },
                                     },
                                 },
@@ -310,10 +251,7 @@ export const schema: RJSFSchema = {
                         information: {
                             type: "object",
                             properties: {
-                                title: {
-                                    type: "string",
-                                    title: "Title",
-                                },
+                                title: { type: "string", title: "Title" },
                                 menu: {
                                     type: "array",
                                     items: {
@@ -322,18 +260,9 @@ export const schema: RJSFSchema = {
                                             id: {
                                                 $ref: "#/definitions/uuid-string",
                                             },
-                                            title: {
-                                                type: "string",
-                                                title: "Title",
-                                            },
-                                            url: {
-                                                type: "string",
-                                                title: "URL",
-                                            },
-                                            type: {
-                                                type: "string",
-                                                title: "Type",
-                                            },
+                                            title: { type: "string", title: "Title" },
+                                            url: { type: "string", title: "URL" },
+                                            type: { type: "string", title: "Type" },
                                         },
                                     },
                                 },
@@ -342,30 +271,12 @@ export const schema: RJSFSchema = {
                         contactInfo: {
                             type: "object",
                             properties: {
-                                title: {
-                                    type: "string",
-                                    title: "Title",
-                                },
-                                name: {
-                                    type: "string",
-                                    title: "Name",
-                                },
-                                address: {
-                                    type: "string",
-                                    title: "Address",
-                                },
-                                telephone: {
-                                    type: "string",
-                                    title: "Telephone",
-                                },
-                                fax: {
-                                    type: "string",
-                                    title: "Fax",
-                                },
-                                website: {
-                                    type: "string",
-                                    title: "Website",
-                                },
+                                title: { type: "string", title: "Title" },
+                                name: { type: "string", title: "Name" },
+                                address: { type: "string", title: "Address" },
+                                telephone: { type: "string", title: "Telephone" },
+                                fax: { type: "string", title: "Fax" },
+                                website: { type: "string", title: "Website" },
                             },
                         },
                     },
