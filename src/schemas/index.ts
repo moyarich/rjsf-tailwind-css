@@ -19,19 +19,23 @@ import videoSchema from "./video";
 import testingSchema from "./_testing";
 import s3FileUploadSchema from "./s3-file-upload";
 
+import menuNestedDropdown1Schema from "./menu-dropdown";
+import menuNestedDropdown2Schema from "./menu-nested-dropdown";
+
 const defaultSchemaData = {
     Home: homeSchema,
     Menu: menuSchema,
     Random: randomSchema,
     Video: videoSchema,
     Testing: testingSchema,
-    'S3 File Upload': s3FileUploadSchema
+    "S3 File Upload": s3FileUploadSchema,
+    "menu :dropdown 1": menuNestedDropdown1Schema,
+    "menu :dropdown 2": menuNestedDropdown2Schema,
     //'Diseases': diseasesSchema,
 };
 const schemas = {
-  Blank: { schema: {}, uiSchema: {}, formData: {} },
-  ...defaultSchemaData
-}
+    Blank: { schema: {}, uiSchema: {}, formData: {} },
+    ...defaultSchemaData,
+};
 
-
-export default schemas
+export default schemas;
