@@ -59,11 +59,12 @@ const Page: NextPage = () => {
         console.dir(form.formData, { depth: null });
         setFormData(form.formData);
     };
-
+*/
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handleFormDataSubmit = (form: IChangeEvent<unknown>, _event: unknown) => {
         setFormData(form.formData);
-    };*/
+        console.log(form, "form");
+    };
 
     const handleTemplateSave = (
         schema: RJSFSchema,
@@ -108,6 +109,7 @@ const Page: NextPage = () => {
                     setExtraErrors={setExtraErrors}
                     onTemplateSave={handleTemplateSave}
                     otherFormProps={otherFormProps}
+                    onFormDataSubmit={handleFormDataSubmit}
                 />
             )}
         </div>

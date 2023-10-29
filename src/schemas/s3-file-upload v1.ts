@@ -23,7 +23,9 @@ export const schema: RJSFSchema = {
             type: "object",
             properties: {
                 id: {
-                    $ref: "#/definitions/uuid-string",
+                    $id: "/schemas/uuid-string",
+                    type: "string",
+                    title: "Id",
                 },
                 s3ObjectKey: {
                     $id: "/schemas/s3-file-upload",
