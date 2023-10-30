@@ -80,7 +80,12 @@ const Page: NextPage = () => {
         fields: {
             "/schemas/specialString": SpecialInput,
             "/schemas/s3-file-upload": S3FileUpload,
-            "/schemas/uuid-string": UUIDInput,
+            "uuid-string": UUIDInput,
+        },
+        widgets: {
+            specialString: SpecialInput,
+            "s3-file-upload": S3FileUpload,
+            uuid: UUIDInput,
         },
         formContext: {
             handleS3FileUpload: handleUploadFile,
