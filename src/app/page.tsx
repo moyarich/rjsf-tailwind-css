@@ -14,10 +14,10 @@ import Editors, { IEditorFormProps } from "@/components/form/editor/editors-dock
 import { SchemaSelector } from "@/components/schema-selector";
 import customsSamples from "@/schemas";
 import rjsfPlaygroundSamples from "@/schemas/samples";
-import SpecialInput from "@/components/form/custom-components/fields/special-input";
-import S3FileUpload from "@/components/form/custom-components/fields/s3-file-upload";
+import SpecialInput from "@/components/custom-components/fields/special-input";
+import S3FileUpload from "@/components/custom-components/fields/s3-file-upload";
 import handleUploadFile from "@/app/s3";
-import UUIDInput from "@/components/form/custom-components/fields/uuid-input";
+import UUIDInput from "@/components/custom-components/fields/uuid-input";
 
 const schemasSamples = {
     ...customsSamples,

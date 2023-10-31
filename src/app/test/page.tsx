@@ -13,13 +13,14 @@ import { IEditorFormProps } from "@/components/form/editor/editors-dock";
 
 import customsSamples from "@/schemas";
 import rjsfPlaygroundSamples from "@/schemas/samples";
-import SpecialInput from "@/components/form/custom-components/fields/special-input";
-import S3FileUpload from "@/components/form/custom-components/fields/s3-file-upload";
+import SpecialInput from "@/components/custom-components/fields/special-input";
+import S3FileUpload from "@/components/custom-components/fields/s3-file-upload";
 import handleUploadFile from "@/app/s3";
-import UUIDInput from "@/components/form/custom-components/fields/uuid-input";
+import UUIDInput from "@/components/custom-components/fields/uuid-input";
 import ThemeForm from "@/components/form/theme";
-import { GeoPosition } from "@/components/form/custom-components/fields/geo-position";
-import { StorageField } from "@/components/form/custom-components/fields/storage-field";
+import { GeoPosition } from "@/components/custom-components/fields/geo-position";
+import { StorageField } from "@/components/custom-components/fields/storage-field";
+import { FormSchemaProvider } from "@/components/form/context/FormSchemaContext";
 
 const schemasSamples = {
     ...customsSamples,
@@ -175,8 +176,9 @@ const Page: NextPage = () => {
                     my content
                 </div>
             </div>
-
-            <TestCollaspe />
+            <FormSchemaProvider>
+                <TestCollaspe />
+            </FormSchemaProvider>
         </div>
     );
 };

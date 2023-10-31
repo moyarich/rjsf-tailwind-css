@@ -29,12 +29,6 @@ const initialState: FormSchema = {
   formData: {},
 };
 
-// Create a provider component
-interface FormSchemaProviderProps {
-  children: ReactNode;
-}
-export const FormSchemaProvider = ({ children }: FormSchemaProviderProps) => {
-
 
 // Define the reducer function
 const reducer = (state: FormSchema, action: Action): FormSchema => {
@@ -49,6 +43,9 @@ const reducer = (state: FormSchema, action: Action): FormSchema => {
       return state;
   }
 }
+
+// Create a provider component
+export function FormSchemaProvider({ children }: any) {
 
   const [formSchema, dispatch] = useReducer(reducer, initialState);
 
