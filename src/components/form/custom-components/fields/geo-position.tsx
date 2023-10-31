@@ -7,8 +7,8 @@ interface IGeoPositionProps extends FieldProps {
 }
 
 export const GeoPosition: React.FC<IGeoPositionProps> = (props) => {
-    const { name, formData: frmData, onChange, idSchema, schema, registry } = props;
-    const [formdata, setFormData] = useState(frmData);
+    const { name, formData: initialValue, onChange, idSchema, schema, registry } = props;
+    const [updatedFormdata, setUpdatedFormData] = useState(initialValue);
 
     function getFieldId() {
         return `${idSchema.$id}`;
@@ -19,26 +19,27 @@ export const GeoPosition: React.FC<IGeoPositionProps> = (props) => {
     const { widgets, formContext, schemaUtils, globalUiOptions } = registry;
 
     //------------------------
-    console.log("-g-etFieldId", getFieldId());
-    console.log("previous formData---->", frmData);
-    console.dir(props, { depth: null });
+    function log() {
+        console.log("-g-etFieldId", getFieldId());
+        console.log("previous formData---->", initialValue);
+        console.dir(props, { depth: null });
 
-    console.log("properties formData---->", properties);
+        console.log("properties formData---->", properties);
 
-    console.log("PROPS---->");
-    console.dir(props, { depth: null });
+        console.log("PROPS---->");
+        console.dir(props, { depth: null });
+    }
+
     //------------------------
-
-    const Widget = getWidget(schema["lan"], "TextWidget", widgets);
 
     const handleChange = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
         //const newFormData = { ...formData, [name]: event.target.value } as unknown as T;
         const newFormData = {
-            ...formdata,
+            ...updatedFormdata,
             [name]: parseFloat(event.target.value),
         };
 
-        setFormData(newFormData);
+        setUpdatedFormData(newFormData);
         onChange(newFormData, undefined, getFieldId());
     };
 
@@ -52,7 +53,7 @@ export const GeoPosition: React.FC<IGeoPositionProps> = (props) => {
                 <input
                     className={inputClass}
                     type="number"
-                    value={formdata?.lat ?? ""}
+                    value={updatedFormdata?.lat ?? ""}
                     onChange={handleChange("lat")}
                 />
             </div>
@@ -61,7 +62,7 @@ export const GeoPosition: React.FC<IGeoPositionProps> = (props) => {
                 <input
                     className={inputClass}
                     type="number"
-                    value={formdata?.lon ?? ""}
+                    value={updatedFormdata?.lon ?? ""}
                     onChange={handleChange("lon")}
                 />
             </div>
@@ -70,7 +71,7 @@ export const GeoPosition: React.FC<IGeoPositionProps> = (props) => {
                 <input
                     className={inputClass}
                     type="number"
-                    value={formdata?.moya ?? ""}
+                    value={updatedFormdata?.moya ?? ""}
                     onChange={handleChange("moya")}
                 />
             </div>
