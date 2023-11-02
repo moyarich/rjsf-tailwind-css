@@ -1,5 +1,5 @@
 import React, { forwardRef, useCallback, useImperativeHandle, useState, useRef } from "react";
-import MonacoEditor, { OnMount } from "@monaco-editor/react";
+import MonacoEditor, { OnMount, BeforeMount, Monaco } from "@monaco-editor/react";
 
 import { CheckIcon, TrashIcon } from "@radix-ui/react-icons";
 
@@ -43,8 +43,8 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
         plugins: [typescriptParser],
     };
 
-    function handleEditorBeforeMount(monaco) {
-        monaco.languages.registerDocumentFormattingEditProvider("typescript", {
+    function handleEditorBeforeMount(monacoEditor: Monaco) {
+        monacoEditor.languages.registerDocumentFormattingEditProvider("typescript", {
             displayName: "Prettier",
             provideDocumentFormattingEdits(model, options, token) {
                 const prettyVal = prettier.format(model.getValue(), typeScriptConfig);
@@ -52,6 +52,38 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
             },
         });
     }
+
+    const editorRef = useRef<any>();
+
+    const onEditorMount: OnMount = (getValue, monacoEditor) => {
+        editorRef.current = monacoEditor;
+        monacoEditor.onDidChangeModelContent(() => {
+            onChange && onChange(getValue());
+        });
+        monacoEditor.getModel()?.updateOptions({ tabSize: 2 });
+    };
+
+    const onFormatClick = () => {
+        // Get the current value from the editor
+        const unformatted = editorRef.current.getModel().getValue();
+
+        // Format the value
+        const formatted = prettier
+            .format(unformatted, {
+                ...typeScriptConfig,
+                useTabs: false,
+                semi: true,
+                singleQuote: true,
+            })
+            .then((formatted) => {
+                // Set the formatted value back in the editor
+                editorRef.current.setValue(formatted);
+            });
+    };
+
+    const onClearClick = () => {
+        editorRef.current.setValue("");
+    };
 
     const onCodeSave = () => {
         onSave && onSave(updatedCode);
@@ -106,16 +138,29 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                     {icon}
                     <span className={cls}>{title}</span>
                 </div>
-                {onSave && (
-                    <div className="action flex flex-1 items-center justify-end">
+
+                <div className="action flex flex-1 items-center justify-end">
+                    <div className="group relative m-12 flex justify-center">
+                        <button
+                            className="rounded bg-amber-500 px-4 py-2 text-sm text-white shadow-sm"
+                            onClick={onFormatClick}
+                        >
+                            Format
+                        </button>
+                        <span className="absolute top-10 scale-0 transition-all rounded bg-gray-800 p-2 text-xs text-white group-hover:scale-100">
+                            ✨ Format
+                        </span>
+                    </div>
+
+                    {onSave && (
                         <button
                             className="bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 py-2 rounded-md px-8"
                             onClick={onCodeSave}
                         >
                             Save
                         </button>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
 
             <MonacoEditor
@@ -127,6 +172,7 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                 height={height}
                 options={monacoEditorOptions}
                 beforeMount={handleEditorBeforeMount}
+                onMount={onEditorMount}
             />
         </div>
     );
