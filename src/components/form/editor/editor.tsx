@@ -3,7 +3,8 @@ import MonacoEditor, { OnMount, BeforeMount, Monaco } from "@monaco-editor/react
 
 import { CheckIcon, TrashIcon } from "@radix-ui/react-icons";
 
-import prettier from "prettier/standalone";
+import prettier from "@prettier/sync";
+import type { Options } from "prettier";
 import typescriptParser from "prettier/parser-typescript";
 
 export interface IEditorRef {
@@ -26,8 +27,6 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
 
     const [updatedCode, setUpdatedCode] = useState<string>(code ?? "");
 
-    const editor = useRef<any>();
-
     useImperativeHandle(
         ref,
         (): IEditorRef => {
@@ -38,51 +37,63 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
         [updatedCode],
     );
 
-    const typeScriptConfig = {
-        parser: "typescript",
-        plugins: [typescriptParser],
+    const editorRef = useRef<any>();
+
+    const getParser = (language: string): Pick<Options, "parser"> & Pick<Options, "plugins"> => {
+        switch (language) {
+            case "typescript":
+                return { parser: "typescript", plugins: [typescriptParser] };
+            default:
+                return {};
+        }
+    };
+
+    const prettyValFormat = (source: string, language: string) => {
+        return prettier.format(source, {
+            useTabs: false,
+            semi: true,
+            singleQuote: true,
+            ...getParser(language),
+        });
+    };
+
+    const setFormatter = (monaco: Monaco): void => {
+        monaco.languages.getLanguages().forEach(({ id: language }) => {
+            monaco.languages.registerDocumentFormattingEditProvider(language, {
+                provideDocumentFormattingEdits: (model) => {
+                    return [
+                        {
+                            range: model.getFullModelRange(),
+                            text: prettyValFormat(model.getValue(), language),
+                        },
+                    ];
+                },
+            });
+        });
     };
 
     function handleEditorBeforeMount(monacoEditor: Monaco) {
-        monacoEditor.languages.registerDocumentFormattingEditProvider("typescript", {
-            displayName: "Prettier",
-            provideDocumentFormattingEdits(model, options, token) {
-                const prettyVal = prettier.format(model.getValue(), typeScriptConfig);
-                return [{ range: model.getFullModelRange(), text: prettyVal }];
-            },
-        });
+        setFormatter(monacoEditor);
     }
 
-    const editorRef = useRef<any>();
-
-    const onEditorMount: OnMount = (getValue, monacoEditor) => {
-        editorRef.current = monacoEditor;
-        monacoEditor.onDidChangeModelContent(() => {
-            onChange && onChange(getValue());
-        });
-        monacoEditor.getModel()?.updateOptions({ tabSize: 2 });
-    };
-
-    const onFormatClick = () => {
+    const formatValue = () => {
         // Get the current value from the editor
         const unformatted = editorRef.current.getModel().getValue();
 
         // Format the value
-        const formatted = prettier
-            .format(unformatted, {
-                ...typeScriptConfig,
-                useTabs: false,
-                semi: true,
-                singleQuote: true,
-            })
-            .then((formatted) => {
-                // Set the formatted value back in the editor
-                editorRef.current.setValue(formatted);
-            });
+        const formatted = prettyValFormat(unformatted, "typescript");
+
+        // Set the formatted value back in the editor
+        editorRef.current.setValue(formatted);
     };
 
-    const onClearClick = () => {
-        editorRef.current.setValue("");
+    const onEditorMount: OnMount = (_editor, monacoEditor: Monaco) => {
+        editorRef.current = _editor;
+        // ]shortcut
+        _editor.addCommand(monacoEditor.KeyMod.Alt | monacoEditor.KeyCode.Enter, () => {
+            formatValue();
+        });
+        _editor.getModel()?.updateOptions({ tabSize: 2 });
     };
 
     const onCodeSave = () => {
@@ -143,7 +154,7 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
                     <div className="group relative m-12 flex justify-center">
                         <button
                             className="rounded bg-amber-500 px-4 py-2 text-sm text-white shadow-sm"
-                            onClick={onFormatClick}
+                            onClick={formatValue}
                         >
                             Format
                         </button>
