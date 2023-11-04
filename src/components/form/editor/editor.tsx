@@ -73,7 +73,7 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
     };
 
     function handleEditorBeforeMount(monacoEditor: Monaco) {
-        setFormatter(monacoEditor);
+        //setFormatter(monacoEditor);
     }
 
     const formatValue = () => {
@@ -91,7 +91,7 @@ export const Editor = forwardRef((props: EditorProps, ref) => {
         editorRef.current = _editor;
         // ]shortcut
         _editor.addCommand(monacoEditor.KeyMod.Alt | monacoEditor.KeyCode.Enter, () => {
-            formatValue();
+            //formatValue();
         });
         _editor.getModel()?.updateOptions({ tabSize: 2 });
     };
