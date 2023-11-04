@@ -3,7 +3,7 @@ import MonacoEditor, { OnMount, BeforeMount, Monaco } from "@monaco-editor/react
 
 import { CheckIcon, TrashIcon } from "@radix-ui/react-icons";
 
-import prettier from "@prettier/sync";
+import prettier from "prettier";
 import type { Options } from "prettier";
 import typescriptParser from "prettier/parser-typescript";
 
